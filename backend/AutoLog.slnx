@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AutoLog.API/AutoLog.API.csproj" />
+    <Project Path="src/AutoLog.Application/AutoLog.Application.csproj" />
+    <Project Path="src/AutoLog.Domain/AutoLog.Domain.csproj" />
+    <Project Path="src/AutoLog.Infrastructure/AutoLog.Infrastructure.csproj" />
+  </Folder>
+</Solution>
