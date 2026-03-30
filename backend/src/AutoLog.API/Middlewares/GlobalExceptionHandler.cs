@@ -11,8 +11,7 @@ namespace AutoLog.API.Middlewares;
 /// and return a standardized JSON response for the frontend.
 /// </summary>
 public class GlobalExceptionHandler(
-    ILogger<GlobalExceptionHandler> logger, 
-    ApplicationDbContext dbContext) : IExceptionHandler
+    ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext, 
@@ -22,6 +21,8 @@ public class GlobalExceptionHandler(
         var incidentNumber = Guid.NewGuid();
         var errorCode = "e00000"; // Default code for unhandled exceptions
         var statusCode = StatusCodes.Status500InternalServerError;
+
+        var dbContext = httpContext.RequestServices.GetRequiredService<ApplicationDbContext>();
 
         // 1. Determine if it's a controlled business error
         if (exception is CustomAppException customEx)

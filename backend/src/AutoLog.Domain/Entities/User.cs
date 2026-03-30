@@ -19,6 +19,11 @@ public class User : BaseEntity
 
     [Required]
     public string PasswordHash { get; set; } = string.Empty;
+
+    [MaxLength(200)]
+    public string? RefreshToken { get; set; }
+    
+    public DateTime? RefreshTokenExpiryTime { get; set; }
     
     // Navigation properties
     public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();

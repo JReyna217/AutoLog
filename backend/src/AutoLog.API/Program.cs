@@ -1,5 +1,9 @@
 using AutoLog.API.Middlewares;
+using AutoLog.Application.Features.Auth.Commands;
+using AutoLog.Application.Interfaces;
+using AutoLog.Infrastructure.Authentication;
 using AutoLog.Infrastructure.Data;
+using AutoLog.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -18,6 +22,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
+
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Register MediatR
+builder.Services.AddMediatR(cfg => 
+{
+    // Scans the entire Application assembly to automatically find and register all Handlers
+    cfg.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly);
+});
 
 var app = builder.Build();
 
