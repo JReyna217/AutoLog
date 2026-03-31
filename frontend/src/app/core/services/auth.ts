@@ -21,14 +21,20 @@ export class AuthService {
     return this.http.post<{ message: string }>(`${this.apiUrl}/register`, userData);
   }
 
-  //TODO: Move this to HttpOnly Cookies for security
-  private saveTokens(tokens: TokenResponse) {
-    localStorage.setItem('accessToken', tokens.accessToken);
-    localStorage.setItem('refreshToken', tokens.refreshToken);
+  refreshToken(tokenRequest: { accessToken: string, refreshToken: string }) {
+    return this.http.post<TokenResponse>(`${this.apiUrl}/refresh`, tokenRequest).pipe(
+      tap(response => this.saveTokens(response))
+    );
   }
 
   logout() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+  }
+
+  //TODO: Move this to HttpOnly Cookies for security
+  private saveTokens(tokens: TokenResponse) {
+    localStorage.setItem('accessToken', tokens.accessToken);
+    localStorage.setItem('refreshToken', tokens.refreshToken);
   }
 }
