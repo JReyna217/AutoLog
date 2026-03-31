@@ -1,0 +1,58 @@
+<div class="flex align-items-center justify-content-center min-h-screen bg-gray-50">
+  
+  <p-toast></p-toast>
+
+  <p-card [style]="{ width: '400px', 'border-radius': '12px', 'box-shadow': '0 4px 10px rgba(0,0,0,0.1)' }">
+    
+    <div class="text-center mb-5 mt-3">
+      <div class="text-900 text-3xl font-medium mb-3">Bienvenido a AutoLog</div>
+      <span class="text-600 font-medium line-height-3">Ingresa tus credenciales para continuar</span>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4 mt-4">
+      
+      <div class="flex flex-column gap-1 mt-2">
+        <p-floatlabel>
+          <input 
+            pInputText 
+            id="email" 
+            type="email" 
+            formControlName="email" 
+            class="w-full" 
+            [ngClass]="{'ng-invalid ng-dirty': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}">
+          <label htmlFor="email">Correo Electrónico</label>
+        </p-floatlabel>
+        <small class="p-error block mt-1" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          Ingresa un correo válido.
+        </small>
+      </div>
+
+      <div class="flex flex-column gap-1 mt-3">
+        <p-floatlabel>
+          <p-password 
+            id="password" 
+            formControlName="password" 
+            [toggleMask]="true" 
+            [feedback]="false"
+            styleClass="w-full"
+            [inputStyle]="{'width':'100%'}"
+            [ngClass]="{'ng-invalid ng-dirty': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
+          </p-password>
+          <label htmlFor="password">Contraseña</label>
+        </p-floatlabel>
+        <small class="p-error block mt-1" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          La contraseña es obligatoria.
+        </small>
+      </div>
+
+      <p-button 
+        type="submit" 
+        label="Ingresar" 
+        styleClass="w-full mt-4" 
+        [disabled]="loginForm.invalid"
+        [loading]="isLoading">
+      </p-button>
+
+    </form>
+  </p-card>
+</div>
