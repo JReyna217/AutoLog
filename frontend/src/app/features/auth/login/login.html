@@ -22,9 +22,10 @@
             [ngClass]="{'ng-invalid ng-dirty': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}">
           <label htmlFor="email">Correo Electrónico</label>
         </p-floatlabel>
-        <small class="p-error block mt-1" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-          Ingresa un correo válido.
-        </small>
+        
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <small class="p-error block mt-1">Ingresa un correo válido.</small>
+        }
       </div>
 
       <div class="flex flex-column gap-1 mt-3">
@@ -34,15 +35,16 @@
             formControlName="password" 
             [toggleMask]="true" 
             [feedback]="false"
-            styleClass="w-full"
+            class="w-full"
             [inputStyle]="{'width':'100%'}"
             [ngClass]="{'ng-invalid ng-dirty': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
           </p-password>
           <label htmlFor="password">Contraseña</label>
         </p-floatlabel>
-        <small class="p-error block mt-1" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-          La contraseña es obligatoria.
-        </small>
+
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <small class="p-error block mt-1">La contraseña es obligatoria.</small>
+        }
       </div>
 
       <p-button 
@@ -52,6 +54,11 @@
         [disabled]="loginForm.invalid"
         [loading]="isLoading">
       </p-button>
+
+      <div class="text-center mt-3">
+        <span class="text-600 font-medium">¿No tienes cuenta? </span>
+        <a routerLink="/register" class="font-medium no-underline ml-2 text-primary cursor-pointer">Regístrate aquí</a>
+      </div>
 
     </form>
   </p-card>
