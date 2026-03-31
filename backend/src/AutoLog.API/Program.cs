@@ -26,6 +26,20 @@ builder.Services.AddProblemDetails();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+// CORS Configuration
+var angularCorsPolicy = "AllowAngularClient";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: angularCorsPolicy,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 // Register MediatR
 builder.Services.AddMediatR(cfg => 
 {
@@ -50,6 +64,7 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
+app.UseCors(angularCorsPolicy);
 app.UseAuthorization();
 app.MapControllers();
 
