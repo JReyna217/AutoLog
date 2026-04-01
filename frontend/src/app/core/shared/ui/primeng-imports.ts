@@ -4,6 +4,8 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { MenuModule } from 'primeng/menu';
+import { AvatarModule } from 'primeng/avatar';
 
 export const PRIME_AUTH_IMPORTS = [
   CardModule,
@@ -12,4 +14,10 @@ export const PRIME_AUTH_IMPORTS = [
   ButtonModule,
   ToastModule,
   FloatLabelModule
+];
+
+export const PRIME_LAYOUT_IMPORTS = [
+  ButtonModule,
+  MenuModule,
+  AvatarModule
 ];
