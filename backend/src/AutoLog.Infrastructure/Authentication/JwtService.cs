@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using AutoLog.Application.Interfaces;
+using AutoLog.Application.Interfaces.Services;
 using AutoLog.Domain.Entities;
 using AutoLog.Domain.Exceptions;
 using Microsoft.Extensions.Configuration;

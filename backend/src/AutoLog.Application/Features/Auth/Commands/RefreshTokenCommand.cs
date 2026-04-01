@@ -1,5 +1,6 @@
 using AutoLog.Application.DTOs.Auth;
-using AutoLog.Application.Interfaces;
+using AutoLog.Application.Interfaces.Services;
+using AutoLog.Application.Interfaces.Repositories;
 using AutoLog.Domain.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Configuration;

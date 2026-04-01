@@ -1,6 +1,6 @@
 using AutoLog.Domain.Entities;
 
-namespace AutoLog.Application.Interfaces;
+namespace AutoLog.Application.Interfaces.Repositories;
 
 /// <summary>
 /// Defines the contract for User data access operations.

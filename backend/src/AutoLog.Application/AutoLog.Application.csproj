@@ -7,10 +7,11 @@
   <ItemGroup>
     <Folder Include="DTOs/" />
     <Folder Include="DTOs/Auth/" />
+    <Folder Include="DTOs/Vehicles/" />
     <Folder Include="Features/" />
     <Folder Include="Features/Auth/" />
     <Folder Include="Features/Auth/Commands/" />
-    <Folder Include="Interfaces/" />
+    <Folder Include="Services/" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using AutoLog.Domain.Entities;
 
-namespace AutoLog.Application.Interfaces;
+namespace AutoLog.Application.Interfaces.Services;
 
 /// <summary>
 /// Defines the contract for JWT operations.

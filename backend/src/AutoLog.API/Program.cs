@@ -1,10 +1,16 @@
+using System.Text;
 using AutoLog.API.Middlewares;
 using AutoLog.Application.Features.Auth.Commands;
 using AutoLog.Application.Interfaces;
+using AutoLog.Application.Interfaces.Repositories;
+using AutoLog.Application.Interfaces.Services;
+using AutoLog.Application.Services;
 using AutoLog.Infrastructure.Authentication;
 using AutoLog.Infrastructure.Data;
 using AutoLog.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,8 +29,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
-builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 // CORS Configuration
 var angularCorsPolicy = "AllowAngularClient";
@@ -47,6 +56,25 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly);
 });
 
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["JwtSettings:Issuer"], 
+            ValidAudience = builder.Configuration["JwtSettings:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]!))
+        };
+    });
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -65,6 +93,7 @@ app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 app.UseCors(angularCorsPolicy);
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

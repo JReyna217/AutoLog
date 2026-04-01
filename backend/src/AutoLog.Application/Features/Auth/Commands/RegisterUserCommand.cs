@@ -1,4 +1,4 @@
-using AutoLog.Application.Interfaces;
+using AutoLog.Application.Interfaces.Repositories;
 using AutoLog.Domain.Entities;
 using AutoLog.Domain.Exceptions;
 using MediatR;
