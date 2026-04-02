@@ -1,44 +1,35 @@
-<div class="flex h-screen overflow-hidden surface-ground">
+<div class="h-screen w-full flex flex-column surface-ground overflow-hidden">
   
-  @if (sidebarVisible) {
-    <div class="w-16rem bg-white border-right-1 surface-border flex flex-column transition-all transition-duration-300">
-      
-      <div class="h-4rem flex align-items-center justify-content-center border-bottom-1 surface-border">
-        <span class="text-2xl font-bold text-primary flex align-items-center gap-2">
-          <i class="pi pi-car text-2xl"></i> AutoLog
-        </span>
+  <div class="h-4rem flex-shrink-0 bg-gray-900 flex justify-content-between align-items-center px-4 shadow-2 z-5 relative border-bottom-1 border-gray-800">
+    <div class="flex align-items-center gap-2 md:gap-4">
+      <div class="flex align-items-center cursor-pointer">
+         <i class="pi pi-car text-primary text-2xl mr-2"></i>
+         <span class="text-white font-bold text-xl">Auto<span class="text-primary">Log</span></span>
       </div>
-      
-      <div class="flex-grow-1 overflow-y-auto py-3 px-2">
-        <p-menu [model]="sidebarItems" class="w-full border-none"></p-menu>
-      </div>
+      <p-button icon="pi pi-bars" [text]="true" styleClass="text-white hover:bg-gray-800" (onClick)="toggleSidebar()"></p-button>
     </div>
-  }
-
-  <div class="flex flex-column flex-grow-1 h-full">
     
-    <div class="h-4rem bg-white border-bottom-1 surface-border flex justify-content-between align-items-center px-4 shadow-1 z-1">
-      
-      <p-button icon="pi pi-bars" (onClick)="toggleSidebar()" [text]="true" [rounded]="true" class="text-700"></p-button>
-      
-      <div class="flex align-items-center gap-3">
-        
-        <p-menu #profileMenu [model]="profileItems" [popup]="true"></p-menu>
-        
-        <p-avatar 
-          image="https://ui-avatars.com/api/?name=User&background=random&color=fff" 
-          shape="circle" 
-          size="large"
-          class="cursor-pointer transition-transform transition-duration-200 hover:scale-110" 
-          (click)="profileMenu.toggle($event)">
-        </p-avatar>
-
-      </div>
+    <div class="flex align-items-center gap-3 cursor-pointer" (click)="profileMenu.toggle($event)">
+      <span class="text-gray-300 hidden sm:block text-sm font-medium">Julio</span>
+      <p-avatar label="JR" shape="circle" styleClass="bg-primary text-white font-bold"></p-avatar>
     </div>
+  </div>
 
-    <div class="flex-grow-1 overflow-y-auto p-4">
+  <div class="flex flex-grow-1 relative overflow-hidden">
+    
+    @if (sidebarVisible) {
+      <div class="dark-sidebar w-15rem bg-gray-800 flex-shrink-0 shadow-4 z-4 absolute lg:static h-full left-0 top-0">
+        <div class="py-4 px-3">
+          <p-menu [model]="sidebarItems" styleClass="w-full bg-transparent border-none"></p-menu>
+        </div>
+      </div>
+    }
+
+    <div class="flex-grow-1 p-4 md:p-5 overflow-y-auto">
       <router-outlet></router-outlet>
     </div>
-
+    
   </div>
 </div>
+
+<p-menu #profileMenu [popup]="true" [model]="profileItems"></p-menu>

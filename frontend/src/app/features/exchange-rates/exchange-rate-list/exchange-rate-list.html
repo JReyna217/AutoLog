@@ -1,0 +1,93 @@
+<div class="card p-4 bg-white border-round shadow-1">
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+
+    <div class="flex flex-column md:flex-row justify-content-between align-items-center mb-4 gap-3">
+        <h2 class="text-2xl font-bold text-900 m-0">Exchange Rates</h2>
+        <p-button label="Add Rate" icon="pi pi-plus" (onClick)="openNew()"></p-button>
+    </div>
+
+    <p-table [value]="rates" [loading]="isLoading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+        responsiveLayout="scroll" class="p-datatable-striped">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Date</th>
+                <th>Exchange Rate (USD to MXN)</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rate>
+            <tr>
+                <td>
+                    <span class="font-medium text-900">{{ rate.date | date:'mediumDate' }}</span>
+                </td>
+                <td>
+                    <span class="surface-200 text-700 px-2 py-1 border-round font-medium text-sm">
+                        {{ rate.usdToMxnRate | currency:'MXN':'symbol':'1.2-4' }}
+                    </span>
+                </td>
+                <td class="text-center">
+                    <div class="flex justify-content-center gap-2">
+                        <p-button icon="pi pi-pencil" [text]="true" [rounded]="true" severity="info"
+                            (onClick)="editRate(rate)"></p-button>
+                        <p-button icon="pi pi-trash" [text]="true" [rounded]="true" severity="danger"
+                            (onClick)="deleteRate(rate)"></p-button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="3" class="text-center p-5 text-600">
+                    No exchange rates found. Add your first record.
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [focusOnShow]="false" [(visible)]="showDialog" [header]="isEditMode ? 'Edit Exchange Rate' : 'New Exchange Rate'" [modal]="true"
+    [style]="{width: '30vw'}" [breakpoints]="{'960px': '50vw', '640px': '90vw'}" class="p-fluid">
+
+    <div class="surface-50 p-4 border-round mt-2">
+        <form [formGroup]="rateForm">
+            <div class="grid formgrid">
+
+                <div class="col-12 mb-4 mt-2">
+                    <p-floatlabel>
+                        <p-datepicker inputId="date" formControlName="date" [showIcon]="true" [fluid]="true" appendTo="body"
+                            styleClass="w-full bg-white">
+                        </p-datepicker>
+                        <label for="date">Date</label>
+                    </p-floatlabel>
+                    @if (rateForm.get('date')?.invalid && rateForm.get('date')?.touched) {
+                    <small class="p-error block mt-1">Date is required.</small>
+                    }
+                </div>
+
+                <div class="col-12 mb-4">
+                    <p-floatlabel>
+                        <p-inputNumber inputId="usdToMxnRate" formControlName="usdToMxnRate" mode="decimal"
+                            [minFractionDigits]="2" [maxFractionDigits]="4" styleClass="w-full bg-white">
+                        </p-inputNumber>
+                        <label for="usdToMxnRate">Rate Value</label>
+                    </p-floatlabel>
+                    @if (rateForm.get('usdToMxnRate')?.invalid && rateForm.get('usdToMxnRate')?.touched) {
+                    <small class="p-error block mt-1">Valid rate is required.</small>
+                    }
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <p-button label="Cancel" icon="pi pi-times" [outlined]="true" severity="secondary"
+            (onClick)="hideDialog()"></p-button>
+        <p-button label="Save" icon="pi pi-check" (onClick)="saveRate()" [disabled]="rateForm.invalid"
+            [loading]="isSaving"></p-button>
+    </ng-template>
+</p-dialog>

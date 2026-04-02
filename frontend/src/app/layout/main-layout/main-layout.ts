@@ -22,7 +22,9 @@ export class MainLayout {
 
   // Sidebar navigation menu items
   sidebarItems: MenuItem[] = [
-    { label: 'Dashboard', icon: 'pi pi-home', routerLink: '/dashboard' }
+    { label: 'Dashboard', icon: 'pi pi-home', routerLink: '/dashboard' },
+    { label: 'Exchange Rates', icon: 'pi pi-money-bill', routerLink: '/exchange-rates' },
+    { label: 'Vehicles', icon: 'pi pi-car', routerLink: '/vehicles' },
   ];
 
   // User profile dropdown menu items

@@ -1,0 +1,144 @@
+<div class="card p-4 bg-white border-round shadow-1">
+  <p-toast></p-toast>
+
+  <p-confirmDialog></p-confirmDialog>
+
+  <div class="flex flex-column md:flex-row justify-content-between align-items-center mb-4 gap-3">
+    <h2 class="text-2xl font-bold text-900 m-0">My Vehicles</h2>
+    <p-button label="Add Vehicle" icon="pi pi-plus" (onClick)="openNew()"></p-button>
+  </div>
+
+  <p-table [value]="vehicles" [loading]="isLoading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+    responsiveLayout="scroll" [breakpoint]="'960px'" class="p-datatable-striped">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Make</th>
+        <th>Model</th>
+        <th>Year</th>
+        <th>Engine</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-vehicle>
+      <tr>
+        <td>
+          <span class="font-medium text-900">{{ vehicle.make }}</span>
+        </td>
+        <td>
+          <span>{{ vehicle.model }}</span>
+        </td>
+        <td>
+          <span>{{ vehicle.year }}</span>
+        </td>
+        <td>
+          <span class="surface-200 text-700 px-2 py-1 border-round font-medium text-sm">
+            {{ vehicle.engineType }} - {{ vehicle.cylinders }} Cyl
+          </span>
+        </td>
+        <td class="text-center">
+          <div class="flex justify-content-end md:justify-content-center gap-2">
+            <p-button icon="pi pi-pencil" [text]="true" [rounded]="true" severity="info"
+              (onClick)="editVehicle(vehicle)"></p-button>
+            <p-button icon="pi pi-trash" [text]="true" [rounded]="true" severity="danger"
+              (onClick)="deleteVehicle(vehicle)"></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" class="text-center p-5 text-600">
+          No vehicles found. Add your first vehicle to get started.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog [focusOnShow]="false" [(visible)]="showDialog" [header]="isEditMode ? 'Edit Vehicle' : 'New Vehicle Details'"
+  [modal]="true" [style]="{width: '50vw'}" [breakpoints]="{'960px': '75vw', '640px': '90vw'}" class="p-fluid">
+
+  <div class="surface-50 p-4 border-round mt-2">
+    <form [formGroup]="vehicleForm">
+      <div class="grid formgrid">
+
+        <div class="col-12 md:col-6 mb-4 mt-2">
+          <p-floatlabel>
+            <input pInputText id="make" formControlName="make" class="w-full bg-white" />
+            <label for="make">Make (e.g. Ford)</label>
+          </p-floatlabel>
+          @if (vehicleForm.get('make')?.invalid && vehicleForm.get('make')?.touched) {
+          <small class="p-error block mt-1">Make is required.</small>
+          }
+        </div>
+
+        <div class="col-12 md:col-6 mb-4 mt-2">
+          <p-floatlabel>
+            <input pInputText id="model" formControlName="model" class="w-full bg-white" />
+            <label for="model">Model (e.g. Mustang)</label>
+          </p-floatlabel>
+          @if (vehicleForm.get('model')?.invalid && vehicleForm.get('model')?.touched) {
+          <small class="p-error block mt-1">Model is required.</small>
+          }
+        </div>
+
+        <div class="col-12 md:col-6 mb-4">
+          <p-floatlabel>
+            <p-inputNumber inputId="year" formControlName="year" [useGrouping]="false"
+              styleClass="w-full bg-white"></p-inputNumber>
+            <label for="year">Year</label>
+          </p-floatlabel>
+          @if (vehicleForm.get('year')?.invalid && vehicleForm.get('year')?.touched) {
+          <small class="p-error block mt-1">Valid year is required.</small>
+          }
+        </div>
+
+        <div class="col-12 md:col-6 mb-4">
+          <p-floatlabel>
+            <input pInputText id="color" formControlName="color" class="w-full bg-white" />
+            <label for="color">Color</label>
+          </p-floatlabel>
+        </div>
+
+        <div class="col-12 md:col-6 mb-4">
+          <p-floatlabel>
+            <p-inputNumber inputId="cylinders" formControlName="cylinders" [showButtons]="true" [min]="2" [max]="16"
+              styleClass="w-full bg-white"></p-inputNumber>
+            <label for="cylinders">Cylinders</label>
+          </p-floatlabel>
+        </div>
+
+        <div class="col-12 md:col-6 mb-4">
+          <p-floatlabel>
+            <input pInputText id="engineType" formControlName="engineType" class="w-full bg-white" />
+            <label for="engineType">Engine Type (e.g. V6)</label>
+          </p-floatlabel>
+          @if (vehicleForm.get('engineType')?.invalid && vehicleForm.get('engineType')?.touched) {
+          <small class="p-error block mt-1">Engine type is required.</small>
+          }
+        </div>
+
+        <div class="col-12 mb-4">
+          <p-floatlabel>
+            <input pInputText id="fuelType" formControlName="fuelType" class="w-full bg-white" />
+            <label for="fuelType">Fuel Type (e.g. Gasoline)</label>
+          </p-floatlabel>
+          @if (vehicleForm.get('fuelType')?.invalid && vehicleForm.get('fuelType')?.touched) {
+          <small class="p-error block mt-1">Fuel type is required.</small>
+          }
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Cancel" icon="pi pi-times" [outlined]="true" severity="secondary"
+      (onClick)="hideDialog()"></p-button>
+    <p-button label="Save" icon="pi pi-check" (onClick)="saveVehicle()" [disabled]="vehicleForm.invalid"
+      [loading]="isSaving"></p-button>
+  </ng-template>
+</p-dialog>

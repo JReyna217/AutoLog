@@ -1,0 +1,36 @@
+::ng-deep .dark-sidebar {
+  border-right: 1px solid #374151;
+  background-color: #1f2937 !important; 
+  min-height: 100%;
+
+  .p-menu {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  /* ESTADO NORMAL: Letras e íconos en BLANCO puro */
+  .p-menuitem-link .p-menuitem-text,
+  .p-menuitem-link .p-menuitem-icon {
+    color: #ffffff !important; 
+    font-weight: 500;
+  }
+
+  /* EFECTO HOVER: Mantenemos el fondo sutil, el texto sigue blanco */
+  .p-menuitem-link {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    background: transparent !important;
+    transition: all 0.2s;
+    
+    &:hover, &:focus {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+
+  .p-menuitem-link:hover .p-menuitem-text,
+  .p-menuitem-link:hover .p-menuitem-icon,
+  .p-menuitem-link:focus .p-menuitem-text,
+  .p-menuitem-link:focus .p-menuitem-icon {
+    color: #ffffff !important;
+  }
+}

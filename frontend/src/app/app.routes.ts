@@ -22,7 +22,15 @@ export const routes: Routes = [
         loadComponent: () => import('./features/dashboard/dashboard/dashboard').then(m => m.Dashboard)
       },
       // Default redirect inside the protected area
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      {
+        path: 'exchange-rates',
+        loadComponent: () => import('./features/exchange-rates/exchange-rate-list/exchange-rate-list').then(m => m.ExchangeRateList)
+      },
+      {
+        path: 'vehicles',
+        loadComponent: () => import('./features/vehicles/vehicle-list/vehicle-list').then(m => m.VehicleList)
+      },
     ]
   },
   // Catch-all route to redirect unknown URLs to dashboard (which will then pass through the guard)
