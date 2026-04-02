@@ -31,9 +31,11 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IExchangeRateRepository, ExchangeRateRepository>();
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
+builder.Services.AddScoped<IExchangeRateService, ExchangeRateService>();
 
 // CORS Configuration
 var angularCorsPolicy = "AllowAngularClient";

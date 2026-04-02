@@ -22,7 +22,7 @@ public class VehicleRepository : IVehicleRepository
         // Fetch all vehicles belonging to the specific user, ordered by year descending
         return await _context.Vehicles
             .AsNoTracking()
-            .Where(v => v.UserId == userId)
+            .Where(v => v.UserId == userId && !v.IsDeleted)
             .OrderByDescending(v => v.Year)
             .ToListAsync();
     }
@@ -31,7 +31,7 @@ public class VehicleRepository : IVehicleRepository
     {
         // Ensure the vehicle exists AND belongs to the requesting user
         return await _context.Vehicles
-            .FirstOrDefaultAsync(v => v.Id == id && v.UserId == userId);
+            .FirstOrDefaultAsync(v => v.Id == id && v.UserId == userId && !v.IsDeleted);
     }
 
     public async Task<Vehicle> AddAsync(Vehicle vehicle)
@@ -49,7 +49,9 @@ public class VehicleRepository : IVehicleRepository
 
     public async Task DeleteAsync(Vehicle vehicle)
     {
-        _context.Vehicles.Remove(vehicle);
+        vehicle.IsDeleted = true;
+        
+        _context.Vehicles.Update(vehicle);
         await _context.SaveChangesAsync();
     }
 }
