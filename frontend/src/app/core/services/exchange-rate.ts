@@ -26,4 +26,8 @@ export class ExchangeRateService {
   deleteRate(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getByDate(date: string): Observable<ExchangeRateResponse | null> {
+    return this.http.get<ExchangeRateResponse | null>(`${this.apiUrl}/date/${date}`);
+  }
 }

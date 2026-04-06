@@ -9,4 +9,5 @@ public interface IExchangeRateRepository
     Task<ExchangeRate> AddAsync(ExchangeRate exchangeRate);
     Task UpdateAsync(ExchangeRate exchangeRate);
     Task DeleteAsync(ExchangeRate exchangeRate);
+    Task<ExchangeRate?> GetByDateAsync(DateOnly date);
 }

@@ -8,6 +8,7 @@
     <Folder Include="DTOs/" />
     <Folder Include="DTOs/Auth/" />
     <Folder Include="DTOs/ExchangeRate/" />
+    <Folder Include="DTOs/FuelLog/" />
     <Folder Include="DTOs/Vehicles/" />
     <Folder Include="Features/" />
     <Folder Include="Features/Auth/" />

@@ -53,4 +53,10 @@ public class ExchangeRateRepository : IExchangeRateRepository
         _context.ExchangeRates.Update(exchangeRate);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<ExchangeRate?> GetByDateAsync(DateOnly date)
+    {
+        return await _context.ExchangeRates
+            .FirstOrDefaultAsync(e => e.Date == date && !e.IsDeleted);
+    }
 }

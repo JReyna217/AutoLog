@@ -44,4 +44,11 @@ public class ExchangeRatesController : ControllerBase
         await _exchangeRateService.DeleteAsync(id);
         return NoContent();
     }
+
+    [HttpGet("date/{date}")]
+    public async Task<IActionResult> GetByDate(DateOnly date)
+    {
+        var rate = await _exchangeRateService.GetByDateAsync(date);
+        return Ok(rate);
+    }
 }

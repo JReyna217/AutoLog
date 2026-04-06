@@ -61,4 +61,17 @@ public class ExchangeRateService : IExchangeRateService
 
         await _repository.DeleteAsync(rate);
     }
+
+    public async Task<ExchangeRateResponse?> GetByDateAsync(DateOnly date)
+    {
+        var rate = await _repository.GetByDateAsync(date);
+        if (rate == null) return null;
+
+        return new ExchangeRateResponse
+        {
+            Id = rate.Id,
+            Date = rate.Date,
+            UsdToMxnRate = rate.UsdToMxnRate
+        };
+    }
 }

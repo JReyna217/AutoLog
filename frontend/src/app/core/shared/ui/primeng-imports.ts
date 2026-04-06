@@ -12,6 +12,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { PanelMenu } from 'primeng/panelmenu';
 import { DatePickerModule } from 'primeng/datepicker';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { TextareaModule } from 'primeng/textarea';
+import { SelectModule } from 'primeng/select';
 
 export const PRIME_AUTH_IMPORTS = [
   CardModule,
@@ -50,4 +53,19 @@ export const PRIME_EXCHANGE_IMPORTS = [
   FloatLabelModule,
   ToastModule,
   DatePickerModule,
+];
+
+export const PRIME_FUEL_IMPORTS = [
+  TableModule,
+  DialogModule,
+  InputNumberModule,
+  ConfirmDialogModule,
+  ButtonModule,
+  InputTextModule,
+  FloatLabelModule,
+  ToastModule,
+  DatePickerModule,
+  SelectModule,
+  SelectButtonModule,
+  TextareaModule
 ];

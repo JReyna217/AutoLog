@@ -1,0 +1,186 @@
+<div class="card p-4 bg-white border-round shadow-1">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+
+  <div class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center mb-4 gap-3">
+    <div class="flex flex-column gap-2">
+      <h2 class="text-2xl font-bold text-900 m-0">Fuel Tracking</h2>
+      
+      <p-select 
+        [options]="vehicles" 
+        [(ngModel)]="selectedVehicleId" 
+        optionLabel="model" 
+        optionValue="id" 
+        placeholder="Select a Vehicle" 
+        (onChange)="onVehicleChange()"
+        styleClass="w-15rem">
+        <ng-template let-vehicle #item>
+          {{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.year }})
+        </ng-template>
+        <ng-template let-vehicle #selectedItem>
+          @if (vehicle) {
+            <span>{{ vehicle.make }} {{ vehicle.model }}</span>
+          }
+        </ng-template>
+      </p-select>
+    </div>
+    
+    <p-button label="Log Fill-Up" icon="pi pi-plus" (onClick)="openNew()" [disabled]="!selectedVehicleId"></p-button>
+  </div>
+
+  <p-table 
+    [value]="logs" 
+    [loading]="isLoading" 
+    [paginator]="true" 
+    [rows]="10"
+    responsiveLayout="scroll"
+    class="p-datatable-striped">
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Date</th>
+        <th>Volume (Liters)</th>
+        <th>Distance (Km)</th>
+        <th>Total Cost (MXN)</th>
+        <th>Odometer (Km)</th>
+        <th class="text-center">Type</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-log>
+      <tr>
+        <td class="font-medium text-900">{{ log.fillUpDate | date:'mediumDate' }}</td>
+        <td>{{ log.volumeLiters | number:'1.2-2' }} L</td>
+        <td>
+          @if (log.distanceTraveledKm > 0) {
+            <span>{{ log.distanceTraveledKm | number:'1.1-1' }} Km</span>
+          } @else {
+            <span class="text-500 text-sm">Pending...</span>
+          }
+        </td>
+        <td class="font-bold text-green-600">{{ log.totalCostMxn | currency:'MXN':'symbol' }}</td>
+        <td class="font-medium text-900">{{ log.odometerKm | number:'1.1-1' }}</td>
+        <td class="text-center">
+          <span class="px-2 py-1 border-round text-xs font-bold" 
+                [ngClass]="log.isFullTank ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'">
+            {{ log.isFullTank ? 'Full' : 'Partial' }}
+          </span>
+        </td>
+        <td class="text-center">
+          <div class="flex justify-content-center gap-2">
+            <p-button icon="pi pi-trash" [text]="true" [rounded]="true" severity="danger" (onClick)="deleteLog(log)"></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center p-5 text-600">
+          No fuel logs found for this vehicle.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog 
+  [(visible)]="showDialog" 
+  header="Log Fuel Fill-Up" 
+  [modal]="true" 
+  [style]="{width: '45vw'}" 
+  [breakpoints]="{'960px': '65vw', '640px': '95vw'}" 
+  [focusOnShow]="false"
+  class="p-fluid">
+  
+  <div class="surface-50 p-4 border-round mt-2">
+    <form [formGroup]="logForm">
+      
+      <div class="grid formgrid mb-4">
+        <div class="col-12 md:col-8">
+          <p-floatlabel class="block w-full">
+            <p-datepicker inputId="fillUpDate" formControlName="fillUpDate" appendTo="body" styleClass="w-full bg-white" [fluid]="true"></p-datepicker>
+            <label for="fillUpDate">Date</label>
+          </p-floatlabel>
+        </div>
+        <div class="col-12 md:col-4 flex align-items-center justify-content-end mt-3 md:mt-0">
+          <p-selectButton [options]="tankOptions" formControlName="isFullTank" optionLabel="label" optionValue="value"></p-selectButton>
+        </div>
+      </div>
+
+      <hr class="mb-4 border-gray-300 border-1 border-top-none">
+
+      <div class="grid formgrid mb-4">
+        <div class="col-12 md:col-8">
+          <p-floatlabel class="block w-full">
+            <p-inputNumber inputId="currentOdometer" formControlName="currentOdometer" styleClass="w-full bg-white" [fluid]="true" [useGrouping]="false"></p-inputNumber>
+            <label for="currentOdometer">Current Odometer Reading</label>
+          </p-floatlabel>
+          @if (logForm.get('currentOdometer')?.invalid && logForm.get('currentOdometer')?.touched) {
+            <small class="p-error block mt-1">Valid reading is required.</small>
+          }
+        </div>
+        <div class="col-12 md:col-4 flex align-items-center justify-content-end mt-3 md:mt-0">
+          <p-selectButton [options]="distanceOptions" formControlName="isOdometerInMiles" optionLabel="label" optionValue="value"></p-selectButton>
+        </div>
+      </div>
+
+      <div class="grid formgrid mb-4">
+        <div class="col-12 md:col-8">
+          <p-floatlabel class="block w-full">
+            <p-inputNumber inputId="inputVolume" formControlName="inputVolume" mode="decimal" [minFractionDigits]="2" styleClass="w-full bg-white" [fluid]="true"></p-inputNumber>
+            <label for="inputVolume">Volume Filled</label>
+          </p-floatlabel>
+          @if (logForm.get('inputVolume')?.invalid && logForm.get('inputVolume')?.touched) {
+            <small class="p-error block mt-1">Valid volume is required.</small>
+          }
+        </div>
+        <div class="col-12 md:col-4 flex align-items-center justify-content-end mt-3 md:mt-0">
+          <p-selectButton [options]="volumeOptions" formControlName="isVolumeInGallons" optionLabel="label" optionValue="value"></p-selectButton>
+        </div>
+      </div>
+
+      <div class="grid formgrid mb-4">
+        <div class="col-12 md:col-8">
+          <p-floatlabel class="block w-full">
+            <p-inputNumber inputId="inputCost" formControlName="inputCost" mode="currency" [currency]="isPaidInUsd ? 'USD' : 'MXN'" styleClass="w-full bg-white" [fluid]="true"></p-inputNumber>
+            <label for="inputCost">Total Paid</label>
+          </p-floatlabel>
+          @if (logForm.get('inputCost')?.invalid && logForm.get('inputCost')?.touched) {
+            <small class="p-error block mt-1">Valid cost is required.</small>
+          }
+        </div>
+        <div class="col-12 md:col-4 flex align-items-center justify-content-end mt-3 md:mt-0">
+          <p-selectButton [options]="currencyOptions" formControlName="isPaidInUsd" optionLabel="label" optionValue="value"></p-selectButton>
+        </div>
+      </div>
+
+      @if (isPaidInUsd) {
+        <div class="grid formgrid mb-4 surface-100 p-3 border-round">
+          <div class="col-12">
+            <span class="block text-sm text-600 mb-4 font-medium"><i class="pi pi-info-circle mr-1"></i>Exchange Rate Used (USD to MXN)</span>
+            
+            <p-floatlabel class="block w-full mt-2">
+              <p-inputNumber inputId="appliedExchangeRate" formControlName="appliedExchangeRate" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="4" styleClass="w-full bg-white" [fluid]="true"></p-inputNumber>
+              <label for="appliedExchangeRate">Rate Value (e.g. 17.50)</label>
+            </p-floatlabel>
+            
+            @if (!logForm.get('appliedExchangeRate')?.value) {
+              <small class="text-orange-500 block mt-2 font-medium">
+                <i class="pi pi-exclamation-circle mr-1"></i>
+                No saved rate found for this date. Please enter it manually.
+              </small>
+            }
+          </div>
+        </div>
+      }
+
+    </form>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Cancel" icon="pi pi-times" [outlined]="true" severity="secondary" (onClick)="hideDialog()"></p-button>
+    <p-button label="Save Log" icon="pi pi-check" (onClick)="saveLog()" [disabled]="logForm.invalid" [loading]="isSaving"></p-button>
+  </ng-template>
+</p-dialog>

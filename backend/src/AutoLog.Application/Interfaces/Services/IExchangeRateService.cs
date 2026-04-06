@@ -8,4 +8,5 @@ public interface IExchangeRateService
     Task<ExchangeRateResponse> CreateAsync(CreateExchangeRateRequest request);
     Task UpdateAsync(int id, CreateExchangeRateRequest request);
     Task DeleteAsync(int id);
+    Task<ExchangeRateResponse?> GetByDateAsync(DateOnly date);
 }

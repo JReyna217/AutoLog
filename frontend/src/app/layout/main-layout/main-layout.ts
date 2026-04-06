@@ -25,6 +25,7 @@ export class MainLayout {
     { label: 'Dashboard', icon: 'pi pi-home', routerLink: '/dashboard' },
     { label: 'Exchange Rates', icon: 'pi pi-money-bill', routerLink: '/exchange-rates' },
     { label: 'Vehicles', icon: 'pi pi-car', routerLink: '/vehicles' },
+    { label: 'Fuel Logs', icon: 'pi pi-gauge', routerLink: '/fuel-logs' },
   ];
 
   // User profile dropdown menu items

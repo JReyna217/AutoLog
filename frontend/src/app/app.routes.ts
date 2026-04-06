@@ -31,6 +31,10 @@ export const routes: Routes = [
         path: 'vehicles',
         loadComponent: () => import('./features/vehicles/vehicle-list/vehicle-list').then(m => m.VehicleList)
       },
+      {
+        path: 'fuel-logs',
+        loadComponent: () => import('./features/fuel-logs/fuel-log-list/fuel-log-list').then(m => m.FuelLogList)
+      },
     ]
   },
   // Catch-all route to redirect unknown URLs to dashboard (which will then pass through the guard)
