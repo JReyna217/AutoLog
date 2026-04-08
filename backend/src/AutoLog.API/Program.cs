@@ -44,13 +44,14 @@ builder.Services.AddHttpClient<IDofIntegrationService, DofIntegrationService>();
 
 // CORS Configuration
 var angularCorsPolicy = "AllowAngularClient";
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: angularCorsPolicy,
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200")
+            policy.WithOrigins(allowedOrigins)
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
