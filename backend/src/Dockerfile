@@ -1,5 +1,5 @@
-# Stage 1: Build the application
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# Stage 1: Build the application using .NET 10 SDK
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Copy project files and restore dependencies
@@ -19,12 +19,12 @@ RUN dotnet build "AutoLog.API.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "AutoLog.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# Stage 3: Final runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+# Stage 3: Final runtime image using .NET 10 ASP.NET Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# Expose the default .NET 8 port
+# Expose the default .NET port (Note: .NET 8+ uses 8080 by default in containers)
 EXPOSE 8080
 
 ENTRYPOINT ["dotnet", "AutoLog.API.dll"]

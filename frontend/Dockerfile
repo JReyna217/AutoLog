@@ -1,5 +1,5 @@
-# Stage 1: Build the Angular app
-FROM node:20-alpine AS build
+# Stage 1: Build the Angular 20 app
+FROM node:22-alpine AS build
 WORKDIR /app
 
 # Copy package files and install dependencies
@@ -15,7 +15,7 @@ FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 
 # Copy the compiled app from the build stage
-# NOTE: Check your 'dist' folder name in angular.json (e.g., dist/autolog-frontend/browser)
+# Double-check if your output path is still dist/autolog-frontend/browser
 COPY --from=build /app/dist/autolog-frontend/browser .
 
 # Copy custom Nginx configuration and the entrypoint script
