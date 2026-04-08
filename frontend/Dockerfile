@@ -16,7 +16,7 @@ WORKDIR /usr/share/nginx/html
 
 # Copy the compiled app from the build stage
 # Double-check if your output path is still dist/autolog-frontend/browser
-COPY --from=build /app/dist/autolog-frontend/browser .
+COPY --from=build /app/dist/frontend/browser .
 
 # Copy custom Nginx configuration and the entrypoint script
 COPY nginx.conf /etc/nginx/conf.d/default.conf
