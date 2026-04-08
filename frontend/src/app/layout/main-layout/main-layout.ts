@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth';
@@ -13,9 +13,12 @@ import { PRIME_LAYOUT_IMPORTS } from '../../core/shared/ui/primeng-imports';
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss'
 })
-export class MainLayout {
+export class MainLayout implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
+  
+  firstName: string = '';
+  userInitials: string = '';
 
   // Controls the visibility of the left sidebar
   sidebarVisible = true;
@@ -40,6 +43,10 @@ export class MainLayout {
     }
   ];
 
+  ngOnInit() {
+    this.loadUserData();
+  }
+
   toggleSidebar() {
     this.sidebarVisible = !this.sidebarVisible;
   }
@@ -48,5 +55,25 @@ export class MainLayout {
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  loadUserData() {
+    // Extraemos el nombre directamente del token JWT
+    const fullName = this.authService.getUserFullNameFromToken(); 
+
+    this.firstName = fullName.split(' ')[0];
+    this.userInitials = this.getInitials(fullName);
+  }
+
+  private getInitials(name: string): string {
+    if (!name || name === 'Usuario') return 'U';
+
+    const parts = name.trim().split(' ').filter(n => n.length > 0);
+    
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    }
+    
+    return name.substring(0, 2).toUpperCase();
   }
 }

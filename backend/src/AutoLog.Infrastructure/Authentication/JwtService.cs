@@ -25,6 +25,7 @@ public class JwtService(IConfiguration configuration) : IJwtService
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(JwtRegisteredClaimNames.Name, user.FullName),
             new Claim("UserId", user.Id.ToString()) // Custom claim for our GlobalExceptionHandler
         };
 
