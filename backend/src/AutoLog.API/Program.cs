@@ -1,12 +1,13 @@
 using System.Text;
 using AutoLog.API.Middlewares;
 using AutoLog.Application.Features.Auth.Commands;
-using AutoLog.Application.Interfaces;
 using AutoLog.Application.Interfaces.Repositories;
 using AutoLog.Application.Interfaces.Services;
 using AutoLog.Application.Services;
 using AutoLog.Infrastructure.Authentication;
 using AutoLog.Infrastructure.Data;
+using AutoLog.Infrastructure.Integrations.DOF.Interfaces;
+using AutoLog.Infrastructure.Integrations.DOF.Services;
 using AutoLog.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,7 @@ builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IExchangeRateService, ExchangeRateService>();
 builder.Services.AddScoped<IFuelLogService, FuelLogService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddHttpClient<IDofIntegrationService, DofIntegrationService>();
 
 // CORS Configuration
 var angularCorsPolicy = "AllowAngularClient";

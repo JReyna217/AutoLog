@@ -13,6 +13,10 @@
   <ItemGroup>
     <Folder Include="Authentication/" />
     <Folder Include="Data/" />
+    <Folder Include="Integrations/" />
+    <Folder Include="Integrations/DOF/" />
+    <Folder Include="Integrations/DOF/Interfaces/" />
+    <Folder Include="Integrations/DOF/Services/" />
     <Folder Include="Repositories/" />
   </ItemGroup>
 

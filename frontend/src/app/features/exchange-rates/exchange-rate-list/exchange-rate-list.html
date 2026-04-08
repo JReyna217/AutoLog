@@ -64,7 +64,7 @@
                         <label for="date">Date</label>
                     </p-floatlabel>
                     @if (rateForm.get('date')?.invalid && rateForm.get('date')?.touched) {
-                    <small class="p-error block mt-1">Date is required.</small>
+                        <small class="p-error block mt-1">Date is required.</small>
                     }
                 </div>
 
@@ -75,8 +75,15 @@
                         </p-inputNumber>
                         <label for="usdToMxnRate">Rate Value</label>
                     </p-floatlabel>
-                    @if (rateForm.get('usdToMxnRate')?.invalid && rateForm.get('usdToMxnRate')?.touched) {
-                    <small class="p-error block mt-1">Valid rate is required.</small>
+                    
+                    @if (isFetchingDof) {
+                        <small class="text-blue-500 block mt-1 font-medium">
+                            <i class="pi pi-spin pi-spinner mr-1"></i> Fetching official rate from DOF...
+                        </small>
+                    }
+                    
+                    @if (rateForm.get('usdToMxnRate')?.invalid && rateForm.get('usdToMxnRate')?.touched && !isFetchingDof) {
+                        <small class="p-error block mt-1">Valid rate is required.</small>
                     }
                 </div>
 
@@ -87,7 +94,7 @@
     <ng-template pTemplate="footer">
         <p-button label="Cancel" icon="pi pi-times" [outlined]="true" severity="secondary"
             (onClick)="hideDialog()"></p-button>
-        <p-button label="Save" icon="pi pi-check" (onClick)="saveRate()" [disabled]="rateForm.invalid"
+        <p-button label="Save" icon="pi pi-check" (onClick)="saveRate()" [disabled]="rateForm.invalid || isFetchingDof"
             [loading]="isSaving"></p-button>
     </ng-template>
 </p-dialog>
