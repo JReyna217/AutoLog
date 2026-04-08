@@ -15,6 +15,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
+import { ChartModule } from 'primeng/chart';
 
 export const PRIME_AUTH_IMPORTS = [
   CardModule,
@@ -68,4 +69,10 @@ export const PRIME_FUEL_IMPORTS = [
   SelectModule,
   SelectButtonModule,
   TextareaModule
+];
+
+export const DASHBOARD_IMPORTS = [
+  ChartModule,
+  SelectModule,
+  DatePickerModule
 ];

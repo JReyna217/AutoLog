@@ -38,6 +38,7 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IExchangeRateService, ExchangeRateService>();
 builder.Services.AddScoped<IFuelLogService, FuelLogService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 // CORS Configuration
 var angularCorsPolicy = "AllowAngularClient";
@@ -78,6 +79,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
