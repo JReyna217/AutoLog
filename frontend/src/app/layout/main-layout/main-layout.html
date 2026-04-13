@@ -17,6 +17,14 @@
 
   <div class="flex flex-grow-1 relative overflow-hidden">
     
+    @if (sidebarVisible && isMobile) {
+      <div 
+        class="fixed top-0 left-0 w-full h-full bg-black-alpha-40 z-3" 
+        (click)="sidebarVisible = false"
+        style="transition: background-color 0.2s ease;">
+      </div>
+    }
+
     @if (sidebarVisible) {
       <div class="dark-sidebar w-15rem bg-gray-800 flex-shrink-0 shadow-4 z-4 absolute lg:static h-full left-0 top-0">
         <div class="py-4 px-3">

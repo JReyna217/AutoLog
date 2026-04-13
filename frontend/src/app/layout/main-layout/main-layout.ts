@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, Router } from '@angular/router';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../core/services/auth';
 
 import { MenuItem } from 'primeng/api';
 import { PRIME_LAYOUT_IMPORTS } from '../../core/shared/ui/primeng-imports';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-main-layout',
@@ -22,6 +23,8 @@ export class MainLayout implements OnInit {
 
   // Controls the visibility of the left sidebar
   sidebarVisible = true;
+  // Control the visibility of menu in mobile
+  isMobile = false;
 
   // Sidebar navigation menu items
   sidebarItems: MenuItem[] = [
@@ -43,8 +46,41 @@ export class MainLayout implements OnInit {
     }
   ];
 
+  constructor() {
+    this.checkScreenSize(); // To verify the initial size
+  }
+
   ngOnInit() {
     this.loadUserData();
+
+    // Close the menu at navigation time (mobile only)
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      if (this.isMobile && this.sidebarVisible) {
+        this.sidebarVisible = false;
+      }
+    });
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  private checkScreenSize() {
+    const wasMobile = this.isMobile;
+    // 992px breakpoint 'lg' of PrimeFlex
+    this.isMobile = window.innerWidth < 992; 
+
+    // Hide when pass from desktop to mobile
+    if (this.isMobile && !wasMobile) {
+      this.sidebarVisible = false;
+    }
+    // Show on desktop
+    if (!this.isMobile && wasMobile) {
+      this.sidebarVisible = true;
+    }
   }
 
   toggleSidebar() {
