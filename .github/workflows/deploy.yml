@@ -1,0 +1,93 @@
+name: Deploy AutoLog (Fullstack Parallel)
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  # TASK 1: Compile and push the Backend (API)
+  build-back:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3.3.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for the API
+        id: meta
+        uses: docker/metadata-action@v5.6.1
+        with:
+          images: ${{ env.REGISTRY }}/jreyna217/autolog-api
+          tags: type=raw,value=latest
+
+      - name: Build and push Backend Image
+        uses: docker/build-push-action@v6.2.0
+        with:
+          context: .
+          file: ./backend/src/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+
+  # TASK 2: Compile and push the FrontendWeb (Angular)
+  build-front:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3.3.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for the Web
+        id: meta
+        uses: docker/metadata-action@v5.6.1
+        with:
+          images: ${{ env.REGISTRY }}/jreyna217/autolog-web
+          tags: type=raw,value=latest
+
+      - name: Build and push Frontend Image
+        uses: docker/build-push-action@v6.2.0
+        with:
+          context: .
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+
+  # TASK 3: Unified Deployment in DigitalOcean via SSH
+  deploy:
+    needs: [build-back, build-front] # Requires both builds to complete successfully
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Web Server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /app/autolog-app
+            # Download the latest images from the registry
+            docker compose pull
+            # Recreate and start the containers in detached mode
+            docker compose up -d
+            # Clean up unused Docker images to free up space
+            docker image prune -f
