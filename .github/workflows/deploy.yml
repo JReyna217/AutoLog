@@ -3,6 +3,8 @@ name: Deploy AutoLog (Fullstack Parallel)
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 env:
   REGISTRY: ghcr.io
@@ -75,6 +77,7 @@ jobs:
   # TASK 3: Unified Deployment in DigitalOcean via SSH
   deploy:
     needs: [build-back, build-front] # Requires both builds to complete successfully
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Web Server via SSH
