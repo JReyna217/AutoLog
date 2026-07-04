@@ -35,7 +35,7 @@ jobs:
       - name: Build and push Backend Image
         uses: docker/build-push-action@v6.2.0
         with:
-          context: .
+          context: ./backend/src
           file: ./backend/src/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
@@ -67,7 +67,7 @@ jobs:
       - name: Build and push Frontend Image
         uses: docker/build-push-action@v6.2.0
         with:
-          context: .
+          context: ./frontend
           file: ./frontend/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
