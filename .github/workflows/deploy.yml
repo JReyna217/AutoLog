@@ -84,7 +84,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /app/autolog-app
+            cd /app/infraestructura/devs/autolog
             # Download the latest images from the registry
             docker compose pull
             # Recreate and start the containers in detached mode
