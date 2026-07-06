@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -17,6 +17,7 @@ import { VehicleService } from '../../../core/services/vehicle';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule, ...PRIME_FUEL_IMPORTS],
   providers: [MessageService, ConfirmationService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './fuel-log-list.html'
 })
 export class FuelLogList implements OnInit {

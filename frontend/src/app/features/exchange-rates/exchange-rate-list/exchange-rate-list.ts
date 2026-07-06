@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -14,6 +14,7 @@ import { debounceTime, filter, switchMap, catchError, of } from 'rxjs';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ...PRIME_EXCHANGE_IMPORTS],
   providers: [MessageService, ConfirmationService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './exchange-rate-list.html'
 })
 export class ExchangeRateList implements OnInit {

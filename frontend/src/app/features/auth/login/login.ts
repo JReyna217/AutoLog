@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth';
 import { Router, RouterLink } from '@angular/router';
@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
   imports: [ReactiveFormsModule, CommonModule, RouterLink, ...PRIME_AUTH_IMPORTS],
   providers: [MessageService],
   templateUrl: './login.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './login.scss',
 })
 export class Login {

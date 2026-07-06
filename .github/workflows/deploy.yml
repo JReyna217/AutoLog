@@ -39,7 +39,7 @@ jobs:
         with:
           context: ./backend/src
           file: ./backend/src/Dockerfile
-          push: true
+          push: ${{ github.event_name == 'push' }}
           tags: ${{ steps.meta.outputs.tags }}
 
   # TASK 2: Compile and push the FrontendWeb (Angular)
@@ -51,6 +51,15 @@ jobs:
     steps:
       - name: Code Checkout
         uses: actions/checkout@v4.2.2
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: pnpm install --frozen-lockfile
 
       - name: Login to GHCR
         uses: docker/login-action@v3.3.0
@@ -71,12 +80,12 @@ jobs:
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
-          push: true
+          push: ${{ github.event_name == 'push' }}
           tags: ${{ steps.meta.outputs.tags }}
 
   # TASK 3: Unified Deployment in DigitalOcean via SSH
   deploy:
-    needs: [build-back, build-front] # Requires both builds to complete successfully
+    needs: [build-back, build-front]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
@@ -88,9 +97,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /app/infraestructura/devs/autolog
-            # Download the latest images from the registry
             docker compose pull
-            # Recreate and start the containers in detached mode
             docker compose up -d
-            # Clean up unused Docker images to free up space
             docker image prune -f
