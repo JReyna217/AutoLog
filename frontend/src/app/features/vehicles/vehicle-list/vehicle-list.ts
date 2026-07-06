@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -12,6 +12,7 @@ import { PRIME_VEHICLE_IMPORTS } from '../../../core/shared/ui/primeng-imports';
   imports: [CommonModule, ReactiveFormsModule, ...PRIME_VEHICLE_IMPORTS],
   providers: [MessageService, ConfirmationService],
   templateUrl: './vehicle-list.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './vehicle-list.scss'
 })
 export class VehicleList implements OnInit {

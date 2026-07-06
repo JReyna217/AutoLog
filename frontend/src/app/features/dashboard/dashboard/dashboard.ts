@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DashboardService } from '../../../core/services/dashboard';
@@ -11,6 +11,7 @@ import { DASHBOARD_IMPORTS } from '../../../core/shared/ui/primeng-imports';
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, FormsModule, ...DASHBOARD_IMPORTS],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './dashboard.html'
 })
 export class Dashboard implements OnInit {

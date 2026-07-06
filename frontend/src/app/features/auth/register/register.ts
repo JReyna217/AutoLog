@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
@@ -23,6 +23,7 @@ const passwordMatchValidator = (control: AbstractControl): ValidationErrors | nu
   imports: [CommonModule, ReactiveFormsModule, RouterLink, ...PRIME_AUTH_IMPORTS],
   providers: [MessageService],
   templateUrl: './register.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './register.scss'
 })
 export class Register {

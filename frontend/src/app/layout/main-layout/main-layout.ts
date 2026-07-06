@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../core/services/auth';
@@ -12,6 +12,7 @@ import { filter } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterOutlet, ...PRIME_LAYOUT_IMPORTS],
   templateUrl: './main-layout.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './main-layout.scss'
 })
 export class MainLayout implements OnInit {
