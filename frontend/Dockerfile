@@ -2,13 +2,16 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 
+# Install pnpm globally
+RUN npm install -g pnpm
+
 # Copy package files and install dependencies
-COPY package*.json ./
-RUN npm install
+COPY package.json pnpm-lock.yaml .npmrc ./
+RUN pnpm install --frozen-lockfile
 
 # Copy source code and build for production
 COPY . .
-RUN npm run build -- --configuration production
+RUN pnpm run build --configuration production
 
 # Stage 2: Serve the app with Nginx
 FROM nginx:alpine
