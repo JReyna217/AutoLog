@@ -11,6 +11,7 @@ RUN pnpm install --frozen-lockfile
 
 # Copy source code and build for production
 COPY . .
+ENV CI=true
 RUN pnpm run build --configuration production
 
 # Stage 2: Serve the app with Nginx
