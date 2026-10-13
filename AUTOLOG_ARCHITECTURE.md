@@ -1050,4 +1050,4 @@ graph LR
 
 ---
 
-*Fin del documento. Generado automáticamente mediante análisis estático exhaustivo del código fuente de AutoLog.*
+*Fin del documento. Generado automáticamente mediante análisis estático exhaustivo del código fuente de AutoLog. Requiere validación*
