@@ -76,3 +76,12 @@ export const DASHBOARD_IMPORTS = [
   SelectModule,
   DatePickerModule
 ];
+
+export const PRIME_LANDING_IMPORTS = [
+  CardModule,
+  ButtonModule,
+  InputTextModule,
+  TextareaModule,
+  ToastModule,
+  FloatLabelModule
+];
