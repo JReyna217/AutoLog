@@ -1,0 +1,165 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.landing-page {
+  font-family: inherit;
+  color: var(--text-color, #1f2937);
+  overflow-x: hidden;
+}
+
+// Contenedor propio (PrimeFlex no define .container)
+.landing-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+// Ancho máximo de párrafos introductorios
+.landing-lead {
+  max-width: 48rem;
+}
+
+.landing-eyebrow {
+  letter-spacing: 0.08em;
+}
+
+// ==================== NAVBAR ====================
+.landing-header {
+  backdrop-filter: blur(8px);
+  background-color: rgba(17, 24, 39, 0.95);
+}
+
+.brand-logo {
+  transition: transform 0.2s ease;
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.nav-link-btn {
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 0.25rem;
+  transition: color 0.2s ease;
+  text-decoration: none;
+
+  &:hover {
+    color: #ffffff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--p-primary-500, #0ea5e9);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #d1d5db;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover, &:focus {
+    background-color: #1f2937;
+    color: #ffffff;
+  }
+}
+
+// ==================== HERO SECTION ====================
+.hero-section {
+  background: linear-gradient(180deg, #111827 0%, #1f2937 100%);
+  position: relative;
+}
+
+.hero-background-gradient {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(14, 165, 233, 0) 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-card {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.bg-primary-reverse {
+  background-color: rgba(14, 165, 233, 0.15);
+}
+
+// ==================== FEATURES ====================
+.feature-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--p-primary-300, #7dd3fc);
+  }
+}
+
+// ==================== FOOTER ====================
+.footer-link {
+  color: #9ca3af;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--p-primary-400, #38bdf8);
+  }
+}
+
+// ==================== ANIMATIONS ====================
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
