@@ -1,0 +1,379 @@
+{
+  "common": {
+    "brandSuffix": "Log",
+    "language": "Idioma",
+    "actions": {
+      "add": "Agregar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "close": "Cerrar"
+    },
+    "table": {
+      "actions": "Acciones"
+    },
+    "status": {
+      "success": "Éxito",
+      "error": "Error",
+      "warning": "Advertencia",
+      "info": "Información"
+    },
+    "confirm": {
+      "deleteHeader": "Confirmar eliminación"
+    },
+    "messages": {
+      "operationFailed": "La operación falló."
+    },
+    "validations": {
+      "emailInvalid": "Ingresa un correo electrónico válido."
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "exchangeRates": "Tipos de cambio",
+    "vehicles": "Vehículos",
+    "fuelLogs": "Combustible",
+    "logout": "Cerrar sesión",
+    "toggleMenu": "Mostrar u ocultar menú"
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido a AutoLog",
+      "subtitle": "Tu sistema de administración de confianza",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Ingresar",
+      "noAccount": "¿No tienes cuenta?",
+      "registerLink": "Regístrate aquí",
+      "errors": {
+        "passwordRequired": "La contraseña es obligatoria."
+      },
+      "toast": {
+        "successSummary": "¡Éxito!",
+        "successDetail": "Sesión iniciada correctamente.",
+        "errorSummary": "Error de acceso",
+        "errorDefault": "Ocurrió un error al intentar iniciar sesión."
+      }
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "subtitle": "Regístrate en AutoLog",
+      "fullName": "Nombre completo",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "submit": "Registrarse",
+      "haveAccount": "¿Ya tienes cuenta?",
+      "loginLink": "Inicia sesión",
+      "passwordStrength": {
+        "prompt": "Ingresa una contraseña",
+        "weak": "Débil",
+        "medium": "Media",
+        "strong": "Fuerte"
+      },
+      "errors": {
+        "fullName": "El nombre es obligatorio (mínimo 3 caracteres).",
+        "password": "La contraseña debe tener al menos 6 caracteres.",
+        "mismatch": "Las contraseñas no coinciden."
+      },
+      "toast": {
+        "successSummary": "Éxito",
+        "successDetail": "Cuenta creada correctamente. Por favor, inicia sesión.",
+        "errorSummary": "Error de registro",
+        "errorDefault": "Ocurrió un error durante el registro."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "vehicle": "Vehículo",
+    "analysisMonth": "Mes de análisis",
+    "totalMonthlySpending": "Gasto mensual total",
+    "activeVehicles": "Vehículos activos",
+    "exchangeRate": "Tipo de cambio",
+    "notAvailable": "N/D",
+    "charts": {
+      "efficiencyHistory": "Historial de salud: rendimiento de combustible (Km/L)",
+      "monthlyAvgEfficiency": "Rendimiento promedio mensual (Km/L)",
+      "monthlySpendingHistory": "Historial de gasto mensual (MXN)",
+      "exchangeRateHistory": "Historial del tipo de cambio",
+      "datasets": {
+        "kmPerLiter": "Km/L",
+        "avgKmPerLiter": "Km/L promedio",
+        "spending": "Gasto (MXN)",
+        "exchangeRate": "Tipo de cambio (USD a MXN)"
+      }
+    }
+  },
+  "vehicles": {
+    "title": "Mis vehículos",
+    "add": "Agregar vehículo",
+    "columns": {
+      "make": "Marca",
+      "model": "Modelo",
+      "year": "Año",
+      "engine": "Motor"
+    },
+    "cylindersShort": "{{count}} cil.",
+    "empty": "No se encontraron vehículos. Agrega tu primer vehículo para comenzar.",
+    "dialog": {
+      "newTitle": "Datos del nuevo vehículo",
+      "editTitle": "Editar vehículo"
+    },
+    "fields": {
+      "make": "Marca (p. ej. Ford)",
+      "model": "Modelo (p. ej. Mustang)",
+      "year": "Año",
+      "color": "Color",
+      "cylinders": "Cilindros",
+      "engineType": "Tipo de motor (p. ej. V6)",
+      "fuelType": "Tipo de combustible (p. ej. Gasolina)"
+    },
+    "errors": {
+      "make": "La marca es obligatoria.",
+      "model": "El modelo es obligatorio.",
+      "year": "Se requiere un año válido.",
+      "engineType": "El tipo de motor es obligatorio.",
+      "fuelType": "El tipo de combustible es obligatorio."
+    },
+    "confirmDelete": "¿Seguro que deseas eliminar tu {{make}} {{model}} {{year}}?",
+    "toast": {
+      "loadError": "No se pudieron cargar los vehículos.",
+      "deleted": "Vehículo eliminado correctamente",
+      "updated": "Vehículo actualizado correctamente",
+      "added": "Vehículo agregado correctamente"
+    }
+  },
+  "fuelLogs": {
+    "title": "Control de combustible",
+    "selectVehicle": "Selecciona un vehículo",
+    "logFillUp": "Registrar carga",
+    "columns": {
+      "date": "Fecha",
+      "volume": "Volumen (litros)",
+      "distance": "Distancia (Km)",
+      "totalCost": "Costo total (MXN)",
+      "odometer": "Odómetro (Km)",
+      "type": "Tipo"
+    },
+    "pending": "Pendiente...",
+    "types": {
+      "full": "Completo",
+      "partial": "Parcial"
+    },
+    "empty": "No se encontraron registros de combustible para este vehículo.",
+    "dialog": {
+      "title": "Registrar carga de combustible",
+      "save": "Guardar registro"
+    },
+    "fields": {
+      "date": "Fecha",
+      "currentOdometer": "Lectura actual del odómetro",
+      "volume": "Volumen cargado",
+      "totalPaid": "Total pagado",
+      "rateTitle": "Tipo de cambio utilizado (USD a MXN)",
+      "rateValue": "Valor del tipo de cambio (p. ej. 17.50)"
+    },
+    "options": {
+      "km": "KM",
+      "miles": "Millas",
+      "liters": "Litros",
+      "gallons": "Galones",
+      "partial": "Parcial",
+      "fullTank": "Tanque lleno"
+    },
+    "errors": {
+      "odometer": "Se requiere una lectura válida.",
+      "volume": "Se requiere un volumen válido.",
+      "cost": "Se requiere un costo válido.",
+      "noRate": "No se encontró un tipo de cambio guardado para esta fecha. Ingrésalo manualmente."
+    },
+    "confirmDelete": "¿Seguro que deseas eliminar este registro de combustible?",
+    "toast": {
+      "loadVehiclesError": "No se pudieron cargar los vehículos.",
+      "loadLogsError": "No se pudieron cargar los registros de combustible.",
+      "selectVehicleFirst": "Selecciona un vehículo primero.",
+      "deleted": "Registro eliminado.",
+      "updated": "Registro actualizado.",
+      "added": "Registro de combustible agregado correctamente."
+    }
+  },
+  "exchangeRates": {
+    "title": "Tipos de cambio",
+    "add": "Agregar tipo de cambio",
+    "columns": {
+      "date": "Fecha",
+      "rate": "Tipo de cambio (USD a MXN)"
+    },
+    "empty": "No se encontraron tipos de cambio. Agrega tu primer registro.",
+    "dialog": {
+      "newTitle": "Nuevo tipo de cambio",
+      "editTitle": "Editar tipo de cambio"
+    },
+    "fields": {
+      "date": "Fecha",
+      "rateValue": "Valor del tipo de cambio"
+    },
+    "fetchingDof": "Consultando el tipo de cambio oficial del DOF...",
+    "errors": {
+      "date": "La fecha es obligatoria.",
+      "rate": "Se requiere un tipo de cambio válido."
+    },
+    "confirmDelete": "¿Seguro que deseas eliminar el tipo de cambio del {{date}}?",
+    "toast": {
+      "dofSyncSummary": "Sincronización DOF",
+      "dofSyncDetail": "Tipo de cambio oficial autocompletado.",
+      "noDataSummary": "Sin datos",
+      "noDataDetail": "No se encontró un tipo de cambio oficial para esta fecha. Ingrésalo manualmente.",
+      "loadError": "No se pudieron cargar los tipos de cambio.",
+      "deleted": "Tipo de cambio eliminado correctamente",
+      "updated": "Tipo de cambio actualizado correctamente",
+      "added": "Tipo de cambio agregado correctamente"
+    }
+  },
+  "landing": {
+    "nav": {
+      "home": "Inicio",
+      "features": "Características",
+      "border": "Solución Fronteriza",
+      "contact": "Contacto",
+      "login": "Iniciar sesión",
+      "register": "Registrarse",
+      "getStartedFree": "Comenzar gratis",
+      "goDashboard": "Ir al Dashboard",
+      "openMenu": "Abrir menú de navegación",
+      "closeMenu": "Cerrar menú",
+      "mainNav": "Navegación principal"
+    },
+    "hero": {
+      "badge": "Bitácora digital y multidivisa",
+      "titleStart": "Control inteligente de combustible",
+      "titleHighlight": "sin fronteras",
+      "lead": "Registra cada carga en <strong>litros o galones</strong>, unifica tus gastos en <strong>pesos y dólares</strong> con el tipo de cambio oficial del <strong>DOF</strong>, y descubre el rendimiento real de tus vehículos en un solo lugar.",
+      "ctaPrimary": "Comenzar ahora",
+      "ctaSecondary": "Iniciar sesión",
+      "perkCurrency": "Soporte USD / MXN",
+      "perkUnits": "Galones y litros",
+      "perkFree": "100% gratuito",
+      "card": {
+        "vehicle": "Ford Mustang V6",
+        "vehicleMeta": "Modelo 2000 • 3.8L Gasolina",
+        "status": "Activo",
+        "avgEfficiency": "Rendimiento medio",
+        "lastOdometer": "Último odómetro",
+        "dofRate": "Tipo de cambio DOF",
+        "monthSpending": "Gasto del mes actual",
+        "lastFillup": "Última carga registrada",
+        "fullTank": "Tanque lleno"
+      }
+    },
+    "features": {
+      "eyebrow": "Funcionalidades principales",
+      "title": "Todo lo que necesitas para tu bitácora vehicular",
+      "subtitle": "Diseñado para simplificar la captura de datos, automatizar conversiones complejas y entregarte analítica confiable sin fricciones.",
+      "items": {
+        "logging": {
+          "title": "Bitácora de combustible",
+          "text": "Registra tus cargas con lectura de odómetro, volumen, costo total y notas. El sistema calcula con exactitud la distancia recorrida y el rendimiento de cada tanque."
+        },
+        "currency": {
+          "title": "Gestión multidivisa USD/MXN",
+          "text": "Paga en dólares en EE. UU. o en pesos en México. AutoLog almacena tanto el costo original como el costo normalizado a la divisa base para análisis consistentes y comparables."
+        },
+        "dof": {
+          "title": "Sincronización oficial con el DOF",
+          "text": "Integración directa con el Diario Oficial de la Federación (DOF) para autocompletar el tipo de cambio oficial según la fecha exacta de tu carga de combustible."
+        },
+        "units": {
+          "title": "Normalización de unidades",
+          "text": "Soporte total para sistemas métrico e imperial: ingresa millas o kilómetros, litros o galones. AutoLog estandariza los cálculos sin alterar tus registros originales."
+        },
+        "dashboard": {
+          "title": "Métricas y dashboard",
+          "text": "Visualiza gráficas interactivas con el rendimiento histórico (km/L), comparativas interanuales y tendencias de gasto mensual acumulado por vehículo."
+        },
+        "security": {
+          "title": "Seguridad y privacidad",
+          "text": "Tus datos están protegidos con cifrado de contraseñas BCrypt, autenticación JWT con tokens de refresco y estricto control de acceso por propietario."
+        }
+      }
+    },
+    "border": {
+      "eyebrow": "Propuesta de valor",
+      "title": "Diseñado pensando en la vida fronteriza",
+      "lead": "Vivir en una zona fronteriza implica llenar el tanque a veces en México y a veces en Estados Unidos. El constante cambio de galones a litros y de dólares a pesos arruina cualquier intento de llevar una bitácora precisa.",
+      "cta": "Crear cuenta gratuita",
+      "bullets": {
+        "noManual": {
+          "title": "Sin conversiones manuales",
+          "text": "Captura los datos tal como vienen en el recibo de la gasolinera. El sistema normaliza todo automáticamente."
+        },
+        "traceability": {
+          "title": "Trazabilidad bimoneda completa",
+          "text": "Consulta en cualquier momento cuánto pagaste en la moneda original y cuál fue la tasa oficial aplicada."
+        },
+        "multiVehicle": {
+          "title": "Multivehículo",
+          "text": "Administra todos los automóviles de tu familia o negocio desde una única cuenta centralizada."
+        }
+      },
+      "flowTitle": "El flujo inteligente de AutoLog",
+      "steps": {
+        "one": {
+          "title": "Cargas combustible",
+          "text": "Ingresas odómetro, litros/galones y monto en pesos o dólares."
+        },
+        "two": {
+          "title": "Sincronización automática",
+          "text": "Si pagaste en USD, AutoLog recupera el tipo de cambio oficial del DOF de la fecha seleccionada."
+        },
+        "three": {
+          "title": "Cálculo de eficiencia",
+          "text": "El sistema actualiza al instante el rendimiento (km/L) entre cargas y refresca tus estadísticas."
+        }
+      }
+    },
+    "contact": {
+      "eyebrow": "Atención y soporte",
+      "title": "Ponte en contacto",
+      "subtitle": "¿Tienes dudas, sugerencias de nuevas funciones o necesitas ayuda con tu cuenta? Escríbenos y con gusto te atenderemos.",
+      "infoTitle": "Información de contacto",
+      "emailLabel": "Correo de soporte",
+      "repoLabel": "Repositorio y código",
+      "locationLabel": "Ubicación",
+      "locationValue": "Región fronteriza MX / EE. UU.",
+      "statusLabel": "Estado de la plataforma",
+      "statusValue": "Servicios operativos (DOF / API en línea)",
+      "formTitle": "Envíanos un mensaje",
+      "fields": {
+        "fullName": "Nombre completo *",
+        "email": "Correo electrónico *",
+        "subject": "Asunto *",
+        "message": "Mensaje o comentarios *"
+      },
+      "errors": {
+        "fullName": "El nombre es requerido (mínimo 3 caracteres).",
+        "email": "Ingresa un correo electrónico válido.",
+        "subject": "El asunto es requerido.",
+        "message": "El mensaje debe tener al menos 10 caracteres."
+      },
+      "submit": "Enviar mensaje",
+      "toast": {
+        "summary": "¡Mensaje enviado!",
+        "detail": "Gracias por ponerte en contacto. Te responderemos a la brevedad."
+      }
+    },
+    "footer": {
+      "description": "Sistema full-stack para el control exhaustivo de cargas de combustible, normalización de unidades y gestión bimoneda USD/MXN con datos oficiales del DOF.",
+      "navigation": "Navegación",
+      "access": "Acceso al sistema",
+      "login": "Iniciar sesión",
+      "register": "Crear cuenta",
+      "dashboard": "Panel de control",
+      "tech": "Tecnología",
+      "license": "Licenciado bajo Apache 2.0. Código abierto.",
+      "copyright": "© {{year}} AutoLog. Desarrollado por Julio Reyna."
+    }
+  }
+}

@@ -3,13 +3,15 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth';
 import { Router, RouterLink } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { LanguageSwitcher } from '../../../core/shared/ui/language-switcher/language-switcher';
 
 import { PRIME_AUTH_IMPORTS } from '../../../core/shared/ui/primeng-imports';
 import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, ...PRIME_AUTH_IMPORTS],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, TranslatePipe, LanguageSwitcher, ...PRIME_AUTH_IMPORTS],
   providers: [MessageService],
   templateUrl: './login.html',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -20,6 +22,7 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
   private messageService = inject(MessageService);
+  private translate = inject(TranslateService);
 
   isLoading = false;
 
@@ -37,8 +40,8 @@ export class Login {
           this.isLoading = false;
           this.messageService.add({ 
             severity: 'success', 
-            summary: '¡Éxito!', 
-            detail: 'Sesión iniciada correctamente.' 
+            summary: this.translate.instant('auth.login.toast.successSummary'), 
+            detail: this.translate.instant('auth.login.toast.successDetail') 
           });
           this.router.navigate(['/dashboard']);
         },
@@ -46,8 +49,9 @@ export class Login {
           this.isLoading = false;
           this.messageService.add({ 
             severity: 'error', 
-            summary: 'Error de Acceso', 
-            detail: err.error?.detail || 'Ocurrió un error al intentar iniciar sesión.' 
+            summary: this.translate.instant('auth.login.toast.errorSummary'), 
+            // Backend-provided detail is shown as-is; otherwise fall back to a translated message
+            detail: err.error?.detail || this.translate.instant('auth.login.toast.errorDefault') 
           });
         }
       });

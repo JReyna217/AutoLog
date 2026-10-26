@@ -4,45 +4,43 @@
   <!-- ==================== HEADER / NAVBAR ==================== -->
   <header class="landing-header sticky top-0 z-5 bg-gray-900 border-bottom-1 border-gray-800 shadow-2">
     <div class="landing-container px-4 lg:px-6 h-4rem flex align-items-center justify-content-between">
-      
-      <!-- Brand Logo -->
-      <a 
-        (click)="scrollToSection('hero')" 
+
+      <a
+        (click)="scrollToSection('hero')"
         class="brand-logo flex align-items-center cursor-pointer no-underline select-none"
         tabindex="0"
         (keyup.enter)="scrollToSection('hero')">
         <i class="pi pi-car text-primary text-2xl mr-2"></i>
-        <span class="text-white font-bold text-xl">Auto<span class="text-primary">Log</span></span>
+        <span class="text-white font-bold text-xl">Auto<span class="text-primary">{{ 'common.brandSuffix' | translate }}</span></span>
       </a>
 
-      <!-- Desktop Navigation Links -->
-      <nav class="hidden lg:flex align-items-center gap-5">
-        <button type="button" class="nav-link-btn" (click)="scrollToSection('hero')">Inicio</button>
-        <button type="button" class="nav-link-btn" (click)="scrollToSection('features')">Características</button>
-        <button type="button" class="nav-link-btn" (click)="scrollToSection('border-solution')">Solución Fronteriza</button>
-        <button type="button" class="nav-link-btn" (click)="scrollToSection('contact')">Contacto</button>
+      <nav class="hidden lg:flex align-items-center gap-5" [attr.aria-label]="'landing.nav.mainNav' | translate">
+        @for (item of navItems; track item.id) {
+          <button type="button" class="nav-link-btn" (click)="scrollToSection(item.id)">{{ item.labelKey | translate }}</button>
+        }
       </nav>
 
-      <!-- Desktop Auth Action Buttons -->
       <div class="hidden lg:flex align-items-center gap-3">
+        <app-language-switcher></app-language-switcher>
+
         @if (isLoggedIn) {
-          <p-button 
-            label="Ir al Dashboard" 
-            icon="pi pi-th-large" 
+          <p-button
+            [label]="'landing.nav.goDashboard' | translate"
+            icon="pi pi-th-large"
             styleClass="p-button-primary p-button-sm font-semibold"
             (onClick)="navigateToDashboard()">
           </p-button>
         } @else {
-          <p-button 
-            label="Iniciar Sesión" 
-            icon="pi pi-sign-in" 
-            [text]="true" 
+          <p-button
+            [label]="'landing.nav.login' | translate"
+            icon="pi pi-sign-in"
+            [text]="true"
             styleClass="text-gray-200 hover:text-white p-button-sm font-medium"
             routerLink="/login">
           </p-button>
-          <p-button 
-            label="Comenzar Gratis" 
-            icon="pi pi-arrow-right" 
+          <p-button
+            [label]="'landing.nav.getStartedFree' | translate"
+            icon="pi pi-arrow-right"
             iconPos="right"
             styleClass="p-button-primary p-button-sm font-semibold"
             routerLink="/register">
@@ -50,13 +48,14 @@
         }
       </div>
 
-      <!-- Mobile Hamburger Button -->
-      <div class="flex lg:hidden align-items-center">
-        <p-button 
-          [icon]="mobileMenuOpen ? 'pi pi-times' : 'pi pi-bars'" 
-          [text]="true" 
+      <!-- Mobile: language switcher + hamburger -->
+      <div class="flex lg:hidden align-items-center gap-2">
+        <app-language-switcher></app-language-switcher>
+        <p-button
+          [icon]="mobileMenuOpen ? 'pi pi-times' : 'pi pi-bars'"
+          [text]="true"
           styleClass="text-white hover:bg-gray-800 p-button-rounded"
-          [attr.aria-label]="mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú de navegación'"
+          [attr.aria-label]="(mobileMenuOpen ? 'landing.nav.closeMenu' : 'landing.nav.openMenu') | translate"
           [attr.aria-expanded]="mobileMenuOpen"
           (onClick)="toggleMobileMenu()">
         </p-button>
@@ -64,44 +63,36 @@
 
     </div>
 
-    <!-- Mobile Navigation Dropdown Menu -->
     @if (mobileMenuOpen) {
       <div class="lg:hidden bg-gray-900 border-top-1 border-gray-800 px-4 py-3 shadow-4 animate-fade-in">
-        <nav class="flex flex-column gap-2 mb-3">
-          <button type="button" class="mobile-nav-link" (click)="scrollToSection('hero')">
-            <i class="pi pi-home mr-3 text-primary"></i> Inicio
-          </button>
-          <button type="button" class="mobile-nav-link" (click)="scrollToSection('features')">
-            <i class="pi pi-star mr-3 text-primary"></i> Características
-          </button>
-          <button type="button" class="mobile-nav-link" (click)="scrollToSection('border-solution')">
-            <i class="pi pi-compass mr-3 text-primary"></i> Solución Fronteriza
-          </button>
-          <button type="button" class="mobile-nav-link" (click)="scrollToSection('contact')">
-            <i class="pi pi-envelope mr-3 text-primary"></i> Contacto
-          </button>
+        <nav class="flex flex-column gap-2 mb-3" [attr.aria-label]="'landing.nav.mainNav' | translate">
+          @for (item of navItems; track item.id) {
+            <button type="button" class="mobile-nav-link" (click)="scrollToSection(item.id)">
+              <i class="pi {{ item.icon }} mr-3 text-primary"></i> {{ item.labelKey | translate }}
+            </button>
+          }
         </nav>
 
         <div class="border-top-1 border-gray-800 pt-3 flex flex-column gap-2">
           @if (isLoggedIn) {
-            <p-button 
-              label="Ir al Dashboard" 
-              icon="pi pi-th-large" 
+            <p-button
+              [label]="'landing.nav.goDashboard' | translate"
+              icon="pi pi-th-large"
               styleClass="w-full p-button-primary font-semibold"
               (onClick)="navigateToDashboard()">
             </p-button>
           } @else {
-            <p-button 
-              label="Iniciar Sesión" 
-              icon="pi pi-sign-in" 
+            <p-button
+              [label]="'landing.nav.login' | translate"
+              icon="pi pi-sign-in"
               [outlined]="true"
               styleClass="w-full text-white border-gray-700 font-medium"
               routerLink="/login"
               (onClick)="closeMobileMenu()">
             </p-button>
-            <p-button 
-              label="Registrarse" 
-              icon="pi pi-user-plus" 
+            <p-button
+              [label]="'landing.nav.register' | translate"
+              icon="pi pi-user-plus"
               styleClass="w-full p-button-primary font-semibold"
               routerLink="/register"
               (onClick)="closeMobileMenu()">
@@ -112,116 +103,99 @@
     }
   </header>
 
-  <!-- ==================== MAIN CONTENT ==================== -->
   <main class="flex-grow-1">
 
-    <!-- ==================== HERO SECTION ==================== -->
+    <!-- ==================== HERO ==================== -->
     <section id="hero" class="hero-section py-6 lg:py-8 relative overflow-hidden bg-gray-900 text-white">
       <div class="hero-background-gradient"></div>
-      
+
       <div class="landing-container px-4 lg:px-6 relative z-2">
         <div class="grid align-items-center">
-          
+
           <div class="col-12 lg:col-7 mb-5 lg:mb-0 text-center lg:text-left">
             <div class="inline-flex align-items-center gap-2 px-3 py-1 border-round-2xl bg-gray-800 border-1 border-gray-700 mb-4">
               <span class="inline-block w-2 h-2 border-circle bg-primary animate-pulse"></span>
-              <span class="text-xs font-semibold text-gray-300 uppercase landing-eyebrow">Bitácora Digital y Multidivisa</span>
+              <span class="text-xs font-semibold text-gray-300 uppercase landing-eyebrow">{{ 'landing.hero.badge' | translate }}</span>
             </div>
 
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold line-height-2 mb-4 text-white">
-              Control inteligente de combustible <span class="text-primary">sin fronteras</span>
+              {{ 'landing.hero.titleStart' | translate }} <span class="text-primary">{{ 'landing.hero.titleHighlight' | translate }}</span>
             </h1>
 
-            <p class="text-lg md:text-xl text-gray-300 line-height-3 mb-5 landing-lead mx-auto lg:mx-0">
-              Registra cada carga en <strong>litros o galones</strong>, unifica tus gastos en <strong>pesos y dólares</strong> con sincronización oficial del <strong>DOF</strong>, y descubre el rendimiento real de tus vehículos en un solo lugar.
-            </p>
+            <p class="text-lg md:text-xl text-gray-300 line-height-3 mb-5 landing-lead mx-auto lg:mx-0"
+               [innerHTML]="'landing.hero.lead' | translate"></p>
 
             <div class="flex flex-column sm:flex-row gap-3 justify-content-center lg:justify-content-start">
-              <p-button 
-                label="Comenzar Ahora" 
-                icon="pi pi-arrow-right" 
-                iconPos="right" 
+              <p-button
+                [label]="'landing.hero.ctaPrimary' | translate"
+                icon="pi pi-arrow-right"
+                iconPos="right"
                 styleClass="p-button-primary p-button-lg font-semibold shadow-3"
                 routerLink="/register">
               </p-button>
-              
-              <p-button 
-                label="Iniciar Sesión" 
-                icon="pi pi-sign-in" 
-                [outlined]="true" 
+              <p-button
+                [label]="'landing.hero.ctaSecondary' | translate"
+                icon="pi pi-sign-in"
+                [outlined]="true"
                 styleClass="p-button-lg text-white border-gray-600 hover:border-primary font-medium"
                 routerLink="/login">
               </p-button>
             </div>
 
-            <div class="flex align-items-center gap-4 mt-5 justify-content-center lg:justify-content-start text-sm text-gray-400">
-              <div class="flex align-items-center gap-2">
-                <i class="pi pi-check text-primary font-bold"></i>
-                <span>Soporte USD / MXN</span>
-              </div>
-              <div class="flex align-items-center gap-2">
-                <i class="pi pi-check text-primary font-bold"></i>
-                <span>Galones y Litros</span>
-              </div>
-              <div class="flex align-items-center gap-2">
-                <i class="pi pi-check text-primary font-bold"></i>
-                <span>100% Gratuito</span>
-              </div>
+            <div class="flex flex-wrap align-items-center gap-4 mt-5 justify-content-center lg:justify-content-start text-sm text-gray-400">
+              <div class="flex align-items-center gap-2"><i class="pi pi-check text-primary font-bold"></i><span>{{ 'landing.hero.perkCurrency' | translate }}</span></div>
+              <div class="flex align-items-center gap-2"><i class="pi pi-check text-primary font-bold"></i><span>{{ 'landing.hero.perkUnits' | translate }}</span></div>
+              <div class="flex align-items-center gap-2"><i class="pi pi-check text-primary font-bold"></i><span>{{ 'landing.hero.perkFree' | translate }}</span></div>
             </div>
           </div>
 
-          <!-- Hero Interactive KPI Mockup Card -->
           <div class="col-12 lg:col-5">
             <div class="hero-card bg-gray-800 border-1 border-gray-700 border-round-xl p-4 shadow-6">
-              
+
               <div class="flex justify-content-between align-items-center mb-4 pb-3 border-bottom-1 border-gray-700">
                 <div class="flex align-items-center gap-3">
                   <div class="w-3rem h-3rem border-round-lg bg-primary-reverse flex align-items-center justify-content-center">
                     <i class="pi pi-car text-primary text-2xl"></i>
                   </div>
                   <div>
-                    <h2 class="text-base font-bold text-white m-0">Ford Mustang V8</h2>
-                    <span class="text-xs text-gray-400">Modelo 2020 &bull; 5.0L Gasolina</span>
+                    <h2 class="text-base font-bold text-white m-0">{{ 'landing.hero.card.vehicle' | translate }}</h2>
+                    <span class="text-xs text-gray-400">{{ 'landing.hero.card.vehicleMeta' | translate }}</span>
                   </div>
                 </div>
-                <span class="px-2 py-1 bg-green-900 text-green-300 border-round text-xs font-semibold">
-                  Activo
-                </span>
+                <span class="px-2 py-1 bg-green-900 text-green-300 border-round text-xs font-semibold">{{ 'landing.hero.card.status' | translate }}</span>
               </div>
 
-              <!-- Stats Grid -->
               <div class="grid mb-3">
                 <div class="col-6">
                   <div class="bg-gray-900 p-3 border-round-lg border-1 border-gray-800">
-                    <span class="text-xs text-gray-400 block mb-1">Rendimiento Medio</span>
+                    <span class="text-xs text-gray-400 block mb-1">{{ 'landing.hero.card.avgEfficiency' | translate }}</span>
                     <span class="text-xl font-bold text-primary">11.8 <small class="text-xs text-gray-400">km/L</small></span>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="bg-gray-900 p-3 border-round-lg border-1 border-gray-800">
-                    <span class="text-xs text-gray-400 block mb-1">Último Odómetro</span>
+                    <span class="text-xs text-gray-400 block mb-1">{{ 'landing.hero.card.lastOdometer' | translate }}</span>
                     <span class="text-xl font-bold text-white">142,580 <small class="text-xs text-gray-400">mi</small></span>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="bg-gray-900 p-3 border-round-lg border-1 border-gray-800">
-                    <span class="text-xs text-gray-400 block mb-1">Tipo de Cambio DOF</span>
+                    <span class="text-xs text-gray-400 block mb-1">{{ 'landing.hero.card.dofRate' | translate }}</span>
                     <span class="text-xl font-bold text-orange-400">$19.85 <small class="text-xs text-gray-400">MXN</small></span>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="bg-gray-900 p-3 border-round-lg border-1 border-gray-800">
-                    <span class="text-xs text-gray-400 block mb-1">Gasto Mes Actual</span>
+                    <span class="text-xs text-gray-400 block mb-1">{{ 'landing.hero.card.monthSpending' | translate }}</span>
                     <span class="text-xl font-bold text-green-400">$2,450 <small class="text-xs text-gray-400">MXN</small></span>
                   </div>
                 </div>
               </div>
 
-              <!-- Recent Fill-up sample -->
               <div class="bg-gray-900 p-3 border-round-lg border-1 border-gray-800">
                 <div class="flex justify-content-between text-xs text-gray-400 mb-2">
-                  <span>Última carga registrada</span>
-                  <span class="text-primary font-medium">Tanque lleno</span>
+                  <span>{{ 'landing.hero.card.lastFillup' | translate }}</span>
+                  <span class="text-primary font-medium">{{ 'landing.hero.card.fullTank' | translate }}</span>
                 </div>
                 <div class="flex justify-content-between align-items-center">
                   <div class="flex align-items-center gap-2">
@@ -239,152 +213,60 @@
       </div>
     </section>
 
-    <!-- ==================== KEY FEATURES SECTION ==================== -->
+    <!-- ==================== FEATURES ==================== -->
     <section id="features" class="features-section py-6 lg:py-8 bg-gray-50">
       <div class="landing-container px-4 lg:px-6">
-        
+
         <div class="text-center mb-6">
-          <span class="text-primary font-bold text-sm landing-eyebrow uppercase mb-2 block">Funcionalidades Principales</span>
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Todo lo que necesitas para tu bitácora vehicular</h2>
-          <p class="text-gray-600 landing-lead mx-auto text-base md:text-lg line-height-3">
-            Diseñado para simplificar la captura de datos, automatizar conversiones complejas y entregarte analítica confiable sin fricciones.
-          </p>
+          <span class="text-primary font-bold text-sm landing-eyebrow uppercase mb-2 block">{{ 'landing.features.eyebrow' | translate }}</span>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">{{ 'landing.features.title' | translate }}</h2>
+          <p class="text-gray-600 landing-lead mx-auto text-base md:text-lg line-height-3">{{ 'landing.features.subtitle' | translate }}</p>
         </div>
 
         <div class="grid">
-          
-          <!-- Feature 1 -->
-          <div class="col-12 md:col-6 lg:col-4 p-3">
-            <div class="feature-card h-full p-4 bg-white border-round-xl border-1 border-gray-200 shadow-1 hover:shadow-4 transition-all transition-duration-200">
-              <div class="w-3rem h-3rem bg-blue-50 text-primary border-round-lg flex align-items-center justify-content-center mb-3">
-                <i class="pi pi-gauge text-2xl"></i>
+          @for (f of features; track f.key) {
+            <div class="col-12 md:col-6 lg:col-4 p-3">
+              <div class="feature-card h-full p-4 bg-white border-round-xl border-1 border-gray-200 shadow-1 hover:shadow-4 transition-all transition-duration-200">
+                <div class="w-3rem h-3rem border-round-lg flex align-items-center justify-content-center mb-3 {{ f.iconClass }}">
+                  <i class="pi {{ f.icon }} text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">{{ 'landing.features.items.' + f.key + '.title' | translate }}</h3>
+                <p class="text-gray-600 line-height-3 text-sm m-0">{{ 'landing.features.items.' + f.key + '.text' | translate }}</p>
               </div>
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Bitácora de Combustible</h3>
-              <p class="text-gray-600 line-height-3 text-sm m-0">
-                Registra tus cargas con lectura de odómetro, volumen cargado, costo total y notas. El sistema calcula de forma retroactiva y exacta la distancia recorrida y el rendimiento de cada tanque.
-              </p>
             </div>
-          </div>
-
-          <!-- Feature 2 -->
-          <div class="col-12 md:col-6 lg:col-4 p-3">
-            <div class="feature-card h-full p-4 bg-white border-round-xl border-1 border-gray-200 shadow-1 hover:shadow-4 transition-all transition-duration-200">
-              <div class="w-3rem h-3rem bg-green-50 text-green-600 border-round-lg flex align-items-center justify-content-center mb-3">
-                <i class="pi pi-dollar text-2xl"></i>
-              </div>
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Gestión Multidivisa USD/MXN</h3>
-              <p class="text-gray-600 line-height-3 text-sm m-0">
-                Paga en dólares en EE.UU. o en pesos en México. AutoLog almacena tanto el costo original como el costo normalizado a la divisa base para análisis consistentes y comparables.
-              </p>
-            </div>
-          </div>
-
-          <!-- Feature 3 -->
-          <div class="col-12 md:col-6 lg:col-4 p-3">
-            <div class="feature-card h-full p-4 bg-white border-round-xl border-1 border-gray-200 shadow-1 hover:shadow-4 transition-all transition-duration-200">
-              <div class="w-3rem h-3rem bg-orange-50 text-orange-600 border-round-lg flex align-items-center justify-content-center mb-3">
-                <i class="pi pi-sync text-2xl"></i>
-              </div>
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Sincronización Oficial DOF</h3>
-              <p class="text-gray-600 line-height-3 text-sm m-0">
-                Integración directa y en tiempo real con el Diario Oficial de la Federación (DOF) para autocompletar la tasa oficial de cambio según la fecha exacta de tu carga de combustible.
-              </p>
-            </div>
-          </div>
-
-          <!-- Feature 4 -->
-          <div class="col-12 md:col-6 lg:col-4 p-3">
-            <div class="feature-card h-full p-4 bg-white border-round-xl border-1 border-gray-200 shadow-1 hover:shadow-4 transition-all transition-duration-200">
-              <div class="w-3rem h-3rem bg-purple-50 text-purple-600 border-round-lg flex align-items-center justify-content-center mb-3">
-                <i class="pi pi-arrows-h text-2xl"></i>
-              </div>
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Normalización de Unidades</h3>
-              <p class="text-gray-600 line-height-3 text-sm m-0">
-                Soporte total para sistemas métrico e imperial: ingresa datos en millas o kilómetros, y litros o galones. AutoLog estandariza los cálculos sin alterar tus registros originales.
-              </p>
-            </div>
-          </div>
-
-          <!-- Feature 5 -->
-          <div class="col-12 md:col-6 lg:col-4 p-3">
-            <div class="feature-card h-full p-4 bg-white border-round-xl border-1 border-gray-200 shadow-1 hover:shadow-4 transition-all transition-duration-200">
-              <div class="w-3rem h-3rem bg-cyan-50 text-cyan-600 border-round-lg flex align-items-center justify-content-center mb-3">
-                <i class="pi pi-chart-line text-2xl"></i>
-              </div>
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Métricas y Dashboard</h3>
-              <p class="text-gray-600 line-height-3 text-sm m-0">
-                Visualiza gráficas interactivas con el rendimiento histórico (km/L), comparativas de eficiencia interanuales y tendencias de gasto mensual acumulado por vehículo.
-              </p>
-            </div>
-          </div>
-
-          <!-- Feature 6 -->
-          <div class="col-12 md:col-6 lg:col-4 p-3">
-            <div class="feature-card h-full p-4 bg-white border-round-xl border-1 border-gray-200 shadow-1 hover:shadow-4 transition-all transition-duration-200">
-              <div class="w-3rem h-3rem bg-teal-50 text-teal-600 border-round-lg flex align-items-center justify-content-center mb-3">
-                <i class="pi pi-shield text-2xl"></i>
-              </div>
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Seguridad y Privacidad</h3>
-              <p class="text-gray-600 line-height-3 text-sm m-0">
-                Tus datos están protegidos mediante cifrado seguro de contraseñas con BCrypt, autenticación JWT con tokens de refresco y estricto control de acceso por propietario.
-              </p>
-            </div>
-          </div>
-
+          }
         </div>
 
       </div>
     </section>
 
-    <!-- ==================== BORDER SOLUTION SECTION ==================== -->
+    <!-- ==================== BORDER SOLUTION ==================== -->
     <section id="border-solution" class="border-solution-section py-6 lg:py-8 bg-gray-900 text-white">
       <div class="landing-container px-4 lg:px-6">
-        
         <div class="grid align-items-center">
+
           <div class="col-12 lg:col-6 mb-5 lg:mb-0">
-            <span class="text-primary font-bold text-sm landing-eyebrow uppercase mb-2 block">Propuesta de Valor</span>
-            <h2 class="text-3xl md:text-4xl font-bold mb-4 line-height-2">
-              Diseñado pensando en la vida fronteriza
-            </h2>
-            <p class="text-gray-300 text-base md:text-lg line-height-3 mb-4">
-              Vivir en una zona fronteriza implica llenar el tanque a veces en México y a veces en Estados Unidos. El constante cambio de galones a litros y de dólares a pesos suele arruinar cualquier intento de llevar una bitácora precisa.
-            </p>
-            
+            <span class="text-primary font-bold text-sm landing-eyebrow uppercase mb-2 block">{{ 'landing.border.eyebrow' | translate }}</span>
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 line-height-2">{{ 'landing.border.title' | translate }}</h2>
+            <p class="text-gray-300 text-base md:text-lg line-height-3 mb-4">{{ 'landing.border.lead' | translate }}</p>
+
             <div class="flex flex-column gap-3 mb-5">
-              <div class="flex align-items-start gap-3">
-                <div class="w-2rem h-2rem bg-primary border-circle flex align-items-center justify-content-center flex-shrink-0 mt-1">
-                  <i class="pi pi-check text-white text-xs font-bold"></i>
+              @for (b of borderBullets; track b) {
+                <div class="flex align-items-start gap-3">
+                  <div class="w-2rem h-2rem bg-primary border-circle flex align-items-center justify-content-center flex-shrink-0 mt-1">
+                    <i class="pi pi-check text-white text-xs font-bold"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-white font-bold text-base m-0 mb-1">{{ 'landing.border.bullets.' + b + '.title' | translate }}</h3>
+                    <p class="text-gray-400 text-sm m-0">{{ 'landing.border.bullets.' + b + '.text' | translate }}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 class="text-white font-bold text-base m-0 mb-1">Sin conversiones manuales</h3>
-                  <p class="text-gray-400 text-sm m-0">Captura tal como viene tu recibo de la gasolinera. El sistema normaliza todo automáticamente.</p>
-                </div>
-              </div>
-
-              <div class="flex align-items-start gap-3">
-                <div class="w-2rem h-2rem bg-primary border-circle flex align-items-center justify-content-center flex-shrink-0 mt-1">
-                  <i class="pi pi-check text-white text-xs font-bold"></i>
-                </div>
-                <div>
-                  <h3 class="text-white font-bold text-base m-0 mb-1">Trazabilidad bimoneda completa</h3>
-                  <p class="text-gray-400 text-sm m-0">Consulta en cualquier momento cuánto pagaste en moneda original y cuál fue la tasa oficial aplicada.</p>
-                </div>
-              </div>
-
-              <div class="flex align-items-start gap-3">
-                <div class="w-2rem h-2rem bg-primary border-circle flex align-items-center justify-content-center flex-shrink-0 mt-1">
-                  <i class="pi pi-check text-white text-xs font-bold"></i>
-                </div>
-                <div>
-                  <h3 class="text-white font-bold text-base m-0 mb-1">Multi-vehículo</h3>
-                  <p class="text-gray-400 text-sm m-0">Administra todos los automóviles de tu familia o negocio desde un único usuario centralizado.</p>
-                </div>
-              </div>
+              }
             </div>
 
-            <p-button 
-              label="Crear Cuenta Gratuita" 
-              icon="pi pi-arrow-right" 
+            <p-button
+              [label]="'landing.border.cta' | translate"
+              icon="pi pi-arrow-right"
               iconPos="right"
               styleClass="p-button-primary font-semibold"
               routerLink="/register">
@@ -395,42 +277,24 @@
             <div class="p-4 bg-gray-800 border-1 border-gray-700 border-round-xl shadow-5">
               <h3 class="text-xl font-bold text-white mb-3 flex align-items-center gap-2">
                 <i class="pi pi-bolt text-primary"></i>
-                El Flujo Inteligente de AutoLog
+                {{ 'landing.border.flowTitle' | translate }}
               </h3>
 
               <div class="flex flex-column gap-4 mt-4">
-                <!-- Step 1 -->
-                <div class="flex gap-3">
-                  <div class="w-2rem h-2rem bg-gray-700 text-primary border-circle flex align-items-center justify-content-center font-bold flex-shrink-0">1</div>
-                  <div>
-                    <h4 class="text-white font-semibold text-base m-0 mb-1">Cargas combustible</h4>
-                    <p class="text-gray-400 text-sm m-0">Ingresas odómetro, litros/galones y monto en pesos o dólares.</p>
+                @for (s of flowSteps; track s.key) {
+                  <div class="flex gap-3">
+                    <div class="w-2rem h-2rem bg-gray-700 text-primary border-circle flex align-items-center justify-content-center font-bold flex-shrink-0">{{ s.number }}</div>
+                    <div>
+                      <h4 class="text-white font-semibold text-base m-0 mb-1">{{ 'landing.border.steps.' + s.key + '.title' | translate }}</h4>
+                      <p class="text-gray-400 text-sm m-0">{{ 'landing.border.steps.' + s.key + '.text' | translate }}</p>
+                    </div>
                   </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="flex gap-3">
-                  <div class="w-2rem h-2rem bg-gray-700 text-primary border-circle flex align-items-center justify-content-center font-bold flex-shrink-0">2</div>
-                  <div>
-                    <h4 class="text-white font-semibold text-base m-0 mb-1">Sincronización automática</h4>
-                    <p class="text-gray-400 text-sm m-0">Si pagaste en USD, AutoLog recupera el tipo de cambio oficial del DOF de la fecha seleccionada.</p>
-                  </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="flex gap-3">
-                  <div class="w-2rem h-2rem bg-gray-700 text-primary border-circle flex align-items-center justify-content-center font-bold flex-shrink-0">3</div>
-                  <div>
-                    <h4 class="text-white font-semibold text-base m-0 mb-1">Cálculo de eficiencia</h4>
-                    <p class="text-gray-400 text-sm m-0">El sistema actualiza de inmediato el rendimiento (km/L) entre cargas y actualiza tus estadísticas.</p>
-                  </div>
-                </div>
+                }
               </div>
             </div>
           </div>
 
         </div>
-
       </div>
     </section>
 
@@ -441,68 +305,54 @@
   <!-- ==================== FOOTER ==================== -->
   <footer class="landing-footer bg-gray-900 border-top-1 border-gray-800 text-gray-400 py-6">
     <div class="landing-container px-4 lg:px-6">
-      
+
       <div class="grid mb-5">
-        
-        <!-- Brand & Description -->
+
         <div class="col-12 md:col-4 mb-4 md:mb-0">
           <div class="flex align-items-center mb-3">
             <i class="pi pi-car text-primary text-2xl mr-2"></i>
-            <span class="text-white font-bold text-xl">Auto<span class="text-primary">Log</span></span>
+            <span class="text-white font-bold text-xl">Auto<span class="text-primary">{{ 'common.brandSuffix' | translate }}</span></span>
           </div>
-          <p class="text-gray-400 text-sm line-height-3">
-            Sistema full-stack para el control exhaustivo de cargas de combustible, normalización de unidades y gestión bimoneda USD/MXN con datos oficiales del DOF.
-          </p>
+          <p class="text-gray-400 text-sm line-height-3">{{ 'landing.footer.description' | translate }}</p>
         </div>
 
-        <!-- Navigation Links -->
         <div class="col-6 md:col-2 mb-4 md:mb-0">
-          <h4 class="text-white font-semibold text-sm mb-3">Navegación</h4>
+          <h4 class="text-white font-semibold text-sm mb-3">{{ 'landing.footer.navigation' | translate }}</h4>
           <ul class="list-none p-0 m-0 flex flex-column gap-2 text-sm">
-            <li><a (click)="scrollToSection('hero')" class="footer-link">Inicio</a></li>
-            <li><a (click)="scrollToSection('features')" class="footer-link">Características</a></li>
-            <li><a (click)="scrollToSection('border-solution')" class="footer-link">Solución Fronteriza</a></li>
-            <li><a (click)="scrollToSection('contact')" class="footer-link">Contacto</a></li>
+            @for (item of navItems; track item.id) {
+              <li><a (click)="scrollToSection(item.id)" class="footer-link">{{ item.labelKey | translate }}</a></li>
+            }
           </ul>
         </div>
 
-        <!-- System & Auth Links -->
         <div class="col-6 md:col-3 mb-4 md:mb-0">
-          <h4 class="text-white font-semibold text-sm mb-3">Acceso al Sistema</h4>
+          <h4 class="text-white font-semibold text-sm mb-3">{{ 'landing.footer.access' | translate }}</h4>
           <ul class="list-none p-0 m-0 flex flex-column gap-2 text-sm">
-            <li><a routerLink="/login" class="footer-link">Iniciar Sesión</a></li>
-            <li><a routerLink="/register" class="footer-link">Crear Cuenta</a></li>
-            <li><a routerLink="/dashboard" class="footer-link">Panel de Control</a></li>
+            <li><a routerLink="/login" class="footer-link">{{ 'landing.footer.login' | translate }}</a></li>
+            <li><a routerLink="/register" class="footer-link">{{ 'landing.footer.register' | translate }}</a></li>
+            <li><a routerLink="/dashboard" class="footer-link">{{ 'landing.footer.dashboard' | translate }}</a></li>
           </ul>
         </div>
 
-        <!-- Stack & License -->
         <div class="col-12 md:col-3">
-          <h4 class="text-white font-semibold text-sm mb-3">Tecnología</h4>
+          <h4 class="text-white font-semibold text-sm mb-3">{{ 'landing.footer.tech' | translate }}</h4>
           <div class="flex flex-wrap gap-2 text-xs">
-            <span class="px-2 py-1 bg-gray-800 border-round text-gray-300">Angular 20</span>
+            <span class="px-2 py-1 bg-gray-800 border-round text-gray-300">Angular</span>
             <span class="px-2 py-1 bg-gray-800 border-round text-gray-300">.NET 10 API</span>
             <span class="px-2 py-1 bg-gray-800 border-round text-gray-300">PrimeNG</span>
             <span class="px-2 py-1 bg-gray-800 border-round text-gray-300">PostgreSQL</span>
             <span class="px-2 py-1 bg-gray-800 border-round text-gray-300">Docker</span>
           </div>
-          <p class="text-xs text-gray-500 mt-3 m-0">
-            Licenciado bajo Apache 2.0. Código abierto.
-          </p>
+          <p class="text-xs text-gray-500 mt-3 m-0">{{ 'landing.footer.license' | translate }}</p>
         </div>
 
       </div>
 
       <div class="border-top-1 border-gray-800 pt-4 flex flex-column sm:flex-row justify-content-between align-items-center gap-2 text-xs text-gray-500">
-        <div>
-          &copy; {{ currentYear }} AutoLog. Desarrollado por <strong>Julio Reyna</strong>.
-        </div>
-        <div class="flex align-items-center gap-3">
-          <a href="https://github.com/JReyna217/AutoLog" target="_blank" rel="noopener noreferrer" class="footer-link flex align-items-center gap-1">
-            <i class="pi pi-github"></i>
-            <span>GitHub</span>
-          </a>
-        </div>
+        <div>{{ 'landing.footer.copyright' | translate: { year: currentYear } }}</div>
+        <a href="https://github.com/JReyna217/AutoLog" target="_blank" rel="noopener noreferrer" class="footer-link flex align-items-center gap-1">
+          <i class="pi pi-github"></i><span>GitHub</span>
+        </a>
       </div>
 
     </div>

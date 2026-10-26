@@ -1,4 +1,7 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguageService } from './core/services/language';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -43,6 +46,13 @@ export const appConfig: ApplicationConfig = {
                 darkModeSelector: '.app-dark' 
             }
         }
-    })
+    }),
+    // i18n: JSON files live in /public/i18n (served from the site root as /i18n/<lang>.json)
+    provideTranslateService({
+      fallbackLang: 'en',
+      loader: provideTranslateHttpLoader({ prefix: '/i18n/', suffix: '.json' })
+    }),
+    // Detects browser language (es -> Spanish, otherwise English) before the first render
+    provideAppInitializer(() => inject(LanguageService).init())
   ]
 };

@@ -3,6 +3,8 @@ import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Va
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { LanguageSwitcher } from '../../../core/shared/ui/language-switcher/language-switcher';
 import { PRIME_AUTH_IMPORTS } from '../../../core/shared/ui/primeng-imports';
 import { MessageService } from 'primeng/api';
 
@@ -20,7 +22,7 @@ const passwordMatchValidator = (control: AbstractControl): ValidationErrors | nu
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, ...PRIME_AUTH_IMPORTS],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslatePipe, LanguageSwitcher, ...PRIME_AUTH_IMPORTS],
   providers: [MessageService],
   templateUrl: './register.html',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -31,6 +33,7 @@ export class Register {
   private authService = inject(AuthService);
   private router = inject(Router);
   private messageService = inject(MessageService);
+  private translate = inject(TranslateService);
 
   isLoading = false;
 
@@ -52,8 +55,8 @@ export class Register {
           this.isLoading = false;
           this.messageService.add({ 
             severity: 'success', 
-            summary: 'Success', 
-            detail: 'Account created successfully. Please log in.' 
+            summary: this.translate.instant('auth.register.toast.successSummary'), 
+            detail: this.translate.instant('auth.register.toast.successDetail') 
           });
           
           // Redirect to login after a short delay so the user can see the success toast
@@ -63,8 +66,8 @@ export class Register {
           this.isLoading = false;
           this.messageService.add({ 
             severity: 'error', 
-            summary: 'Registration Error', 
-            detail: err.error?.detail || 'An error occurred during registration.' 
+            summary: this.translate.instant('auth.register.toast.errorSummary'), 
+            detail: err.error?.detail || this.translate.instant('auth.register.toast.errorDefault') 
           });
         }
       });

@@ -11,7 +11,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
 
   // We do not intercept login/registration/refresh requests to prevent infinite loops
-  if (req.url.includes('/auth/')) {
+  // nor static translation files (/i18n/*.json), which are public assets
+  if (req.url.includes('/auth/') || req.url.includes('/i18n/')) {
     return next(req);
   }
 

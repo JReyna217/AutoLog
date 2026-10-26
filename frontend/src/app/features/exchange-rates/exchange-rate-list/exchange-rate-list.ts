@@ -2,6 +2,8 @@ import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../core/services/language';
 import { ExchangeRateService } from '../../../core/services/exchange-rate';
 import { ExchangeRateResponse } from '../../../core/models/exchange-rate.model';
 import { PRIME_EXCHANGE_IMPORTS } from '../../../core/shared/ui/primeng-imports';
@@ -12,7 +14,7 @@ import { debounceTime, filter, switchMap, catchError, of } from 'rxjs';
 @Component({
   selector: 'app-exchange-rate-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ...PRIME_EXCHANGE_IMPORTS],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe, ...PRIME_EXCHANGE_IMPORTS],
   providers: [MessageService, ConfirmationService],
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './exchange-rate-list.html'
@@ -22,6 +24,10 @@ export class ExchangeRateList implements OnInit {
   private fb = inject(FormBuilder);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private translate = inject(TranslateService);
+
+  /** Active language; used for locale-aware date formatting. */
+  readonly lang = inject(LanguageService).current;
 
   rates: ExchangeRateResponse[] = [];
   isLoading = true;
@@ -72,11 +78,11 @@ export class ExchangeRateList implements OnInit {
       if (response && response.rateValue) {
         // Official rate found, auto-fill the form field
         this.rateForm.patchValue({ usdToMxnRate: response.rateValue });
-        this.messageService.add({ severity: 'info', summary: 'DOF Sync', detail: 'Official rate auto-filled.' });
+        this.messageService.add({ severity: 'info', summary: this.translate.instant('exchangeRates.toast.dofSyncSummary'), detail: this.translate.instant('exchangeRates.toast.dofSyncDetail') });
       } else {
         // No official rate available, clear the field for manual entry
         this.rateForm.patchValue({ usdToMxnRate: null });
-        this.messageService.add({ severity: 'warn', summary: 'No Data', detail: 'No official rate found for this date. Enter manually.' });
+        this.messageService.add({ severity: 'warn', summary: this.translate.instant('exchangeRates.toast.noDataSummary'), detail: this.translate.instant('exchangeRates.toast.noDataDetail') });
       }
     });
   }
@@ -89,7 +95,7 @@ export class ExchangeRateList implements OnInit {
         this.isLoading = false;
       },
       error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Could not load exchange rates.' });
+        this.messageService.add({ severity: 'error', summary: this.translate.instant('common.status.error'), detail: this.translate.instant('exchangeRates.toast.loadError') });
         this.isLoading = false;
       }
     });
@@ -124,8 +130,8 @@ export class ExchangeRateList implements OnInit {
 
   deleteRate(rate: ExchangeRateResponse) {
     this.confirmationService.confirm({
-      message: `Are you sure you want to delete the rate for ${rate.date}?`,
-      header: 'Confirm Deletion',
+      message: this.translate.instant('exchangeRates.confirmDelete', { date: rate.date }),
+      header: this.translate.instant('common.confirm.deleteHeader'),
       icon: 'pi pi-exclamation-triangle',
       acceptButtonStyleClass: 'p-button-danger',
       rejectButtonStyleClass: 'p-button-secondary p-button-outlined',
@@ -133,7 +139,7 @@ export class ExchangeRateList implements OnInit {
         this.exchangeRateService.deleteRate(rate.id).subscribe({
           next: () => {
             this.rates = this.rates.filter(r => r.id !== rate.id);
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Rate deleted successfully' });
+            this.messageService.add({ severity: 'success', summary: this.translate.instant('common.status.success'), detail: this.translate.instant('exchangeRates.toast.deleted') });
           },
           error: () => this.handleError()
         });
@@ -172,7 +178,7 @@ export class ExchangeRateList implements OnInit {
           if (index !== -1) {
             this.rates[index] = { ...requestData, id: this.selectedRateId };
           }
-          this.finishSave('Exchange rate updated successfully');
+          this.finishSave(this.translate.instant('exchangeRates.toast.updated'));
         },
         error: () => this.handleError()
       });
@@ -180,7 +186,7 @@ export class ExchangeRateList implements OnInit {
       this.exchangeRateService.createRate(requestData).subscribe({
         next: (newRate) => {
           this.rates.unshift(newRate);
-          this.finishSave('Exchange rate added successfully');
+          this.finishSave(this.translate.instant('exchangeRates.toast.added'));
         },
         error: () => this.handleError()
       });
@@ -188,13 +194,13 @@ export class ExchangeRateList implements OnInit {
   }
 
   private finishSave(message: string) {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: message });
+    this.messageService.add({ severity: 'success', summary: this.translate.instant('common.status.success'), detail: message });
     this.isSaving = false;
     this.showDialog = false;
   }
 
   private handleError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Operation failed.' });
+    this.messageService.add({ severity: 'error', summary: this.translate.instant('common.status.error'), detail: this.translate.instant('common.messages.operationFailed') });
     this.isSaving = false;
   }
 }

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
+import { provideTranslateService } from '@ngx-translate/core';
 import { Landing } from './landing';
 
 describe('Landing', () => {
@@ -12,7 +13,9 @@ describe('Landing', () => {
       imports: [Landing],
       providers: [
         provideRouter([]),
-        provideHttpClient()
+        provideHttpClient(),
+        // No loader: keys are rendered as-is, enough for component-level tests
+        provideTranslateService({ fallbackLang: 'en' })
       ]
     }).compileComponents();
 
@@ -39,5 +42,11 @@ describe('Landing', () => {
     expect(component.mobileMenuOpen).toBe(true);
     component.closeMobileMenu();
     expect(component.mobileMenuOpen).toBe(false);
+  });
+
+  it('should render the shared language switcher in desktop and mobile navbar areas', () => {
+    expect(fixture.nativeElement.querySelectorAll('app-language-switcher').length).toBe(2);
+    // EN + ES buttons per switcher
+    expect(fixture.nativeElement.querySelectorAll('.lang-btn').length).toBe(4);
   });
 });

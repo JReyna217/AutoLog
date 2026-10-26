@@ -1,0 +1,379 @@
+{
+  "common": {
+    "brandSuffix": "Log",
+    "language": "Language",
+    "actions": {
+      "add": "Add",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "save": "Save",
+      "close": "Close"
+    },
+    "table": {
+      "actions": "Actions"
+    },
+    "status": {
+      "success": "Success",
+      "error": "Error",
+      "warning": "Warning",
+      "info": "Info"
+    },
+    "confirm": {
+      "deleteHeader": "Confirm Deletion"
+    },
+    "messages": {
+      "operationFailed": "Operation failed."
+    },
+    "validations": {
+      "emailInvalid": "Enter a valid email address."
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "exchangeRates": "Exchange Rates",
+    "vehicles": "Vehicles",
+    "fuelLogs": "Fuel Logs",
+    "logout": "Logout",
+    "toggleMenu": "Toggle menu"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome to AutoLog",
+      "subtitle": "Your trusted management system",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log in",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Sign up here",
+      "errors": {
+        "passwordRequired": "Password is required."
+      },
+      "toast": {
+        "successSummary": "Success!",
+        "successDetail": "Signed in successfully.",
+        "errorSummary": "Access error",
+        "errorDefault": "An error occurred while trying to sign in."
+      }
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Sign up for AutoLog",
+      "fullName": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "submit": "Sign up",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "passwordStrength": {
+        "prompt": "Enter a password",
+        "weak": "Weak",
+        "medium": "Medium",
+        "strong": "Strong"
+      },
+      "errors": {
+        "fullName": "Name is required (at least 3 characters).",
+        "password": "Password must be at least 6 characters long.",
+        "mismatch": "Passwords do not match."
+      },
+      "toast": {
+        "successSummary": "Success",
+        "successDetail": "Account created successfully. Please log in.",
+        "errorSummary": "Registration error",
+        "errorDefault": "An error occurred during registration."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "vehicle": "Vehicle",
+    "analysisMonth": "Analysis Month",
+    "totalMonthlySpending": "Total Monthly Spending",
+    "activeVehicles": "Active Vehicles",
+    "exchangeRate": "Exchange Rate",
+    "notAvailable": "N/A",
+    "charts": {
+      "efficiencyHistory": "Health History: Fuel Efficiency (Km/L)",
+      "monthlyAvgEfficiency": "Monthly Avg Efficiency (Km/L)",
+      "monthlySpendingHistory": "Monthly Spending History (MXN)",
+      "exchangeRateHistory": "Exchange Rate History",
+      "datasets": {
+        "kmPerLiter": "Km/L",
+        "avgKmPerLiter": "Average Km/L",
+        "spending": "Spending (MXN)",
+        "exchangeRate": "Exchange Rate (USD to MXN)"
+      }
+    }
+  },
+  "vehicles": {
+    "title": "My Vehicles",
+    "add": "Add Vehicle",
+    "columns": {
+      "make": "Make",
+      "model": "Model",
+      "year": "Year",
+      "engine": "Engine"
+    },
+    "cylindersShort": "{{count}} Cyl",
+    "empty": "No vehicles found. Add your first vehicle to get started.",
+    "dialog": {
+      "newTitle": "New Vehicle Details",
+      "editTitle": "Edit Vehicle"
+    },
+    "fields": {
+      "make": "Make (e.g. Ford)",
+      "model": "Model (e.g. Mustang)",
+      "year": "Year",
+      "color": "Color",
+      "cylinders": "Cylinders",
+      "engineType": "Engine Type (e.g. V6)",
+      "fuelType": "Fuel Type (e.g. Gasoline)"
+    },
+    "errors": {
+      "make": "Make is required.",
+      "model": "Model is required.",
+      "year": "Valid year is required.",
+      "engineType": "Engine type is required.",
+      "fuelType": "Fuel type is required."
+    },
+    "confirmDelete": "Are you sure you want to delete your {{year}} {{make}} {{model}}?",
+    "toast": {
+      "loadError": "Could not load vehicles.",
+      "deleted": "Vehicle deleted successfully",
+      "updated": "Vehicle updated successfully",
+      "added": "Vehicle added successfully"
+    }
+  },
+  "fuelLogs": {
+    "title": "Fuel Tracking",
+    "selectVehicle": "Select a Vehicle",
+    "logFillUp": "Log Fill-Up",
+    "columns": {
+      "date": "Date",
+      "volume": "Volume (Liters)",
+      "distance": "Distance (Km)",
+      "totalCost": "Total Cost (MXN)",
+      "odometer": "Odometer (Km)",
+      "type": "Type"
+    },
+    "pending": "Pending...",
+    "types": {
+      "full": "Full",
+      "partial": "Partial"
+    },
+    "empty": "No fuel logs found for this vehicle.",
+    "dialog": {
+      "title": "Log Fuel Fill-Up",
+      "save": "Save Log"
+    },
+    "fields": {
+      "date": "Date",
+      "currentOdometer": "Current Odometer Reading",
+      "volume": "Volume Filled",
+      "totalPaid": "Total Paid",
+      "rateTitle": "Exchange Rate Used (USD to MXN)",
+      "rateValue": "Rate Value (e.g. 17.50)"
+    },
+    "options": {
+      "km": "KM",
+      "miles": "Miles",
+      "liters": "Liters",
+      "gallons": "Gallons",
+      "partial": "Partial",
+      "fullTank": "Full Tank"
+    },
+    "errors": {
+      "odometer": "Valid reading is required.",
+      "volume": "Valid volume is required.",
+      "cost": "Valid cost is required.",
+      "noRate": "No saved rate found for this date. Please enter it manually."
+    },
+    "confirmDelete": "Are you sure you want to delete this fuel record?",
+    "toast": {
+      "loadVehiclesError": "Could not load vehicles.",
+      "loadLogsError": "Could not load fuel logs.",
+      "selectVehicleFirst": "Select a vehicle first.",
+      "deleted": "Record deleted.",
+      "updated": "Record updated.",
+      "added": "Fuel log added successfully."
+    }
+  },
+  "exchangeRates": {
+    "title": "Exchange Rates",
+    "add": "Add Rate",
+    "columns": {
+      "date": "Date",
+      "rate": "Exchange Rate (USD to MXN)"
+    },
+    "empty": "No exchange rates found. Add your first record.",
+    "dialog": {
+      "newTitle": "New Exchange Rate",
+      "editTitle": "Edit Exchange Rate"
+    },
+    "fields": {
+      "date": "Date",
+      "rateValue": "Rate Value"
+    },
+    "fetchingDof": "Fetching official rate from DOF...",
+    "errors": {
+      "date": "Date is required.",
+      "rate": "Valid rate is required."
+    },
+    "confirmDelete": "Are you sure you want to delete the rate for {{date}}?",
+    "toast": {
+      "dofSyncSummary": "DOF Sync",
+      "dofSyncDetail": "Official rate auto-filled.",
+      "noDataSummary": "No Data",
+      "noDataDetail": "No official rate found for this date. Enter manually.",
+      "loadError": "Could not load exchange rates.",
+      "deleted": "Rate deleted successfully",
+      "updated": "Exchange rate updated successfully",
+      "added": "Exchange rate added successfully"
+    }
+  },
+  "landing": {
+    "nav": {
+      "home": "Home",
+      "features": "Features",
+      "border": "Border Solution",
+      "contact": "Contact",
+      "login": "Log in",
+      "register": "Sign up",
+      "getStartedFree": "Get started free",
+      "goDashboard": "Go to Dashboard",
+      "openMenu": "Open navigation menu",
+      "closeMenu": "Close menu",
+      "mainNav": "Main navigation"
+    },
+    "hero": {
+      "badge": "Digital logbook, multi-currency",
+      "titleStart": "Smart fuel tracking",
+      "titleHighlight": "without borders",
+      "lead": "Log every fill-up in <strong>liters or gallons</strong>, unify your spending in <strong>pesos and dollars</strong> with official <strong>DOF</strong> exchange rates, and discover your vehicles' real efficiency in one place.",
+      "ctaPrimary": "Get started now",
+      "ctaSecondary": "Log in",
+      "perkCurrency": "USD / MXN support",
+      "perkUnits": "Gallons and liters",
+      "perkFree": "100% free",
+      "card": {
+        "vehicle": "Ford Mustang V6",
+        "vehicleMeta": "2000 model • 3.8L Gasoline",
+        "status": "Active",
+        "avgEfficiency": "Average efficiency",
+        "lastOdometer": "Last odometer",
+        "dofRate": "DOF exchange rate",
+        "monthSpending": "Spending this month",
+        "lastFillup": "Last fill-up logged",
+        "fullTank": "Full tank"
+      }
+    },
+    "features": {
+      "eyebrow": "Key features",
+      "title": "Everything you need for your vehicle logbook",
+      "subtitle": "Designed to simplify data entry, automate complex conversions and deliver reliable analytics without friction.",
+      "items": {
+        "logging": {
+          "title": "Fuel logbook",
+          "text": "Log each fill-up with odometer reading, volume, total cost and notes. The system accurately calculates distance traveled and efficiency for every tank."
+        },
+        "currency": {
+          "title": "USD/MXN multi-currency",
+          "text": "Pay in dollars in the U.S. or pesos in Mexico. AutoLog stores both the original cost and the cost normalized to the base currency for consistent, comparable analysis."
+        },
+        "dof": {
+          "title": "Official DOF sync",
+          "text": "Direct integration with Mexico's Diario Oficial de la Federación (DOF) to auto-fill the official exchange rate for the exact date of your fill-up."
+        },
+        "units": {
+          "title": "Unit normalization",
+          "text": "Full support for metric and imperial systems: enter miles or kilometers, liters or gallons. AutoLog standardizes calculations without altering your original records."
+        },
+        "dashboard": {
+          "title": "Metrics and dashboard",
+          "text": "View interactive charts with historical efficiency (km/L), year-over-year comparisons and accumulated monthly spending trends for each vehicle."
+        },
+        "security": {
+          "title": "Security and privacy",
+          "text": "Your data is protected with BCrypt password hashing, JWT authentication with refresh tokens and strict per-owner access control."
+        }
+      }
+    },
+    "border": {
+      "eyebrow": "Value proposition",
+      "title": "Designed for life on the border",
+      "lead": "Living near the border means filling up sometimes in Mexico and sometimes in the United States. Constantly switching between gallons and liters, dollars and pesos ruins any attempt at an accurate logbook.",
+      "cta": "Create a free account",
+      "bullets": {
+        "noManual": {
+          "title": "No manual conversions",
+          "text": "Enter data exactly as it appears on your gas station receipt. The system normalizes everything automatically."
+        },
+        "traceability": {
+          "title": "Full dual-currency traceability",
+          "text": "Check at any time what you paid in the original currency and which official rate was applied."
+        },
+        "multiVehicle": {
+          "title": "Multi-vehicle",
+          "text": "Manage all of your family's or business's vehicles from a single centralized account."
+        }
+      },
+      "flowTitle": "The AutoLog smart flow",
+      "steps": {
+        "one": {
+          "title": "You fill up",
+          "text": "Enter odometer, liters/gallons and amount in pesos or dollars."
+        },
+        "two": {
+          "title": "Automatic sync",
+          "text": "If you paid in USD, AutoLog fetches the official DOF exchange rate for the selected date."
+        },
+        "three": {
+          "title": "Efficiency calculation",
+          "text": "The system instantly updates efficiency (km/L) between fill-ups and refreshes your statistics."
+        }
+      }
+    },
+    "contact": {
+      "eyebrow": "Help and support",
+      "title": "Get in touch",
+      "subtitle": "Have questions, feature ideas or need help with your account? Write to us and we'll gladly help.",
+      "infoTitle": "Contact information",
+      "emailLabel": "Support email",
+      "repoLabel": "Repository and code",
+      "locationLabel": "Location",
+      "locationValue": "MX / U.S. border region",
+      "statusLabel": "Platform status",
+      "statusValue": "Services operational (DOF / API online)",
+      "formTitle": "Send us a message",
+      "fields": {
+        "fullName": "Full name *",
+        "email": "Email address *",
+        "subject": "Subject *",
+        "message": "Message or comments *"
+      },
+      "errors": {
+        "fullName": "Name is required (at least 3 characters).",
+        "email": "Enter a valid email address.",
+        "subject": "Subject is required.",
+        "message": "Message must be at least 10 characters long."
+      },
+      "submit": "Send message",
+      "toast": {
+        "summary": "Message sent!",
+        "detail": "Thanks for getting in touch. We'll reply shortly."
+      }
+    },
+    "footer": {
+      "description": "Full-stack system for thorough fuel tracking, unit normalization and USD/MXN dual-currency management with official DOF data.",
+      "navigation": "Navigation",
+      "access": "System access",
+      "login": "Log in",
+      "register": "Create account",
+      "dashboard": "Control panel",
+      "tech": "Technology",
+      "license": "Licensed under Apache 2.0. Open source.",
+      "copyright": "© {{year}} AutoLog. Developed by Julio Reyna."
+    }
+  }
+}

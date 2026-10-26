@@ -1,6 +1,8 @@
-import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DashboardService } from '../../../core/services/dashboard';
 import { VehicleService } from '../../../core/services/vehicle';
 import { VehicleResponse } from '../../../core/models/vehicle.model';
@@ -10,13 +12,15 @@ import { DASHBOARD_IMPORTS } from '../../../core/shared/ui/primeng-imports';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, ...DASHBOARD_IMPORTS],
+  imports: [CommonModule, FormsModule, TranslatePipe, ...DASHBOARD_IMPORTS],
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './dashboard.html'
 })
 export class Dashboard implements OnInit {
   private dashboardService = inject(DashboardService);
   private vehicleService = inject(VehicleService);
+  private translate = inject(TranslateService);
+  private destroyRef = inject(DestroyRef);
 
   vehicles: VehicleResponse[] = [];
   selectedVehicleId: number | null = null;
@@ -32,6 +36,11 @@ export class Dashboard implements OnInit {
   ngOnInit() {
     this.initChartOptions();
     this.loadVehicles();
+
+    // Chart dataset labels are plain strings (not template-bound), so rebuild them on language change
+    this.translate.onLangChange
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.buildCharts());
   }
 
   loadVehicles() {
@@ -73,7 +82,7 @@ export class Dashboard implements OnInit {
     this.lineChartData = {
       labels: this.summary.fullEfficiencyHistory.map(f => new Date(f.date).toLocaleDateString()),
       datasets: [{
-        label: 'Km/L',
+        label: this.translate.instant('dashboard.charts.datasets.kmPerLiter'),
         data: this.summary.fullEfficiencyHistory.map(f => f.kmL),
         borderColor: documentStyle.getPropertyValue('--blue-500'),
         backgroundColor: 'rgba(59, 130, 246, 0.2)',
@@ -85,7 +94,7 @@ export class Dashboard implements OnInit {
     this.barChartData = {
       labels: this.summary.annualEfficiencyComparison.map(a => `${a.month.toString().padStart(2, '0')}/${a.year}`),
       datasets: [{
-        label: 'Average Km/L',
+        label: this.translate.instant('dashboard.charts.datasets.avgKmPerLiter'),
         data: this.summary.annualEfficiencyComparison.map(a => a.averageKmL),
         backgroundColor: documentStyle.getPropertyValue('--blue-500')
       }]
@@ -95,7 +104,7 @@ export class Dashboard implements OnInit {
     this.spendChartData = {
       labels: this.summary.monthlySpendingHistory.map(s => s.label),
       datasets: [{
-        label: 'Spending (MXN)',
+        label: this.translate.instant('dashboard.charts.datasets.spending'),
         data: this.summary.monthlySpendingHistory.map(s => s.value),
         backgroundColor: documentStyle.getPropertyValue('--green-500')
       }]
@@ -105,7 +114,7 @@ export class Dashboard implements OnInit {
     this.exchangeRateChartData = {
       labels: this.summary.exchangeRateHistory.map(e => e.label),
       datasets: [{
-        label: 'Exchange Rate (USD to MXN)',
+        label: this.translate.instant('dashboard.charts.datasets.exchangeRate'),
         data: this.summary.exchangeRateHistory.map(e => e.value),
         borderColor: documentStyle.getPropertyValue('--orange-500'),
         backgroundColor: 'rgba(249, 115, 22, 0.2)',

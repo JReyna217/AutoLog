@@ -6,7 +6,7 @@
          <i class="pi pi-car text-primary text-2xl mr-2"></i>
          <span class="text-white font-bold text-xl">Auto<span class="text-primary">Log</span></span>
       </div>
-      <p-button icon="pi pi-bars" [text]="true" styleClass="text-white hover:bg-gray-800" (onClick)="toggleSidebar()"></p-button>
+      <p-button icon="pi pi-bars" [text]="true" styleClass="text-white hover:bg-gray-800" [attr.aria-label]="'nav.toggleMenu' | translate" (onClick)="toggleSidebar()"></p-button>
     </div>
     
     <div class="flex align-items-center gap-3 cursor-pointer" (click)="profileMenu.toggle($event)">
@@ -28,7 +28,13 @@
     @if (sidebarVisible) {
       <div class="dark-sidebar w-15rem bg-gray-800 flex-shrink-0 shadow-4 z-4 absolute lg:static h-full left-0 top-0">
         <div class="py-4 px-3">
-          <p-menu [model]="sidebarItems" styleClass="w-full bg-transparent border-none"></p-menu>
+          <p-menu [model]="sidebarItems()" styleClass="w-full bg-transparent border-none"></p-menu>
+
+          <!-- Language switcher: sits right below the last menu entry ("Fuel Logs") -->
+          <div class="sidebar-language mt-3 pt-3 px-3 border-top-1 border-gray-700 flex align-items-center justify-content-between">
+            <span class="text-xs font-semibold text-gray-400 uppercase">{{ 'common.language' | translate }}</span>
+            <app-language-switcher></app-language-switcher>
+          </div>
         </div>
       </div>
     }
@@ -40,4 +46,4 @@
   </div>
 </div>
 
-<p-menu #profileMenu [popup]="true" [model]="profileItems"></p-menu>
+<p-menu #profileMenu [popup]="true" [model]="profileItems()"></p-menu>
