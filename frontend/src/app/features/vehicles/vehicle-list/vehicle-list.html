@@ -4,8 +4,8 @@
   <p-confirmDialog></p-confirmDialog>
 
   <div class="flex flex-column md:flex-row justify-content-between align-items-center mb-4 gap-3">
-    <h2 class="text-2xl font-bold text-900 m-0">My Vehicles</h2>
-    <p-button label="Add Vehicle" icon="pi pi-plus" (onClick)="openNew()"></p-button>
+    <h2 class="text-2xl font-bold text-900 m-0">{{ 'vehicles.title' | translate }}</h2>
+    <p-button [label]="'vehicles.add' | translate" icon="pi pi-plus" (onClick)="openNew()"></p-button>
   </div>
 
   <p-table [value]="vehicles" [loading]="isLoading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
@@ -13,11 +13,11 @@
 
     <ng-template pTemplate="header">
       <tr>
-        <th>Make</th>
-        <th>Model</th>
-        <th>Year</th>
-        <th>Engine</th>
-        <th class="text-center">Actions</th>
+        <th>{{ 'vehicles.columns.make' | translate }}</th>
+        <th>{{ 'vehicles.columns.model' | translate }}</th>
+        <th>{{ 'vehicles.columns.year' | translate }}</th>
+        <th>{{ 'vehicles.columns.engine' | translate }}</th>
+        <th class="text-center">{{ 'common.table.actions' | translate }}</th>
       </tr>
     </ng-template>
 
@@ -34,14 +34,14 @@
         </td>
         <td>
           <span class="surface-200 text-700 px-2 py-1 border-round font-medium text-sm">
-            {{ vehicle.engineType }} - {{ vehicle.cylinders }} Cyl
+            {{ vehicle.engineType }} - {{ 'vehicles.cylindersShort' | translate: { count: vehicle.cylinders } }}
           </span>
         </td>
         <td class="text-center">
           <div class="flex justify-content-end md:justify-content-center gap-2">
-            <p-button icon="pi pi-pencil" [text]="true" [rounded]="true" severity="info"
+            <p-button icon="pi pi-pencil" [ariaLabel]="'common.actions.edit' | translate" [text]="true" [rounded]="true" severity="info"
               (onClick)="editVehicle(vehicle)"></p-button>
-            <p-button icon="pi pi-trash" [text]="true" [rounded]="true" severity="danger"
+            <p-button icon="pi pi-trash" [ariaLabel]="'common.actions.delete' | translate" [text]="true" [rounded]="true" severity="danger"
               (onClick)="deleteVehicle(vehicle)"></p-button>
           </div>
         </td>
@@ -51,14 +51,14 @@
     <ng-template pTemplate="emptymessage">
       <tr>
         <td colspan="5" class="text-center p-5 text-600">
-          No vehicles found. Add your first vehicle to get started.
+          {{ 'vehicles.empty' | translate }}
         </td>
       </tr>
     </ng-template>
   </p-table>
 </div>
 
-<p-dialog [focusOnShow]="false" [(visible)]="showDialog" [header]="isEditMode ? 'Edit Vehicle' : 'New Vehicle Details'"
+<p-dialog [focusOnShow]="false" [(visible)]="showDialog" [header]="(isEditMode ? 'vehicles.dialog.editTitle' : 'vehicles.dialog.newTitle') | translate"
   [modal]="true" [style]="{width: '50vw'}" [breakpoints]="{'960px': '75vw', '640px': '90vw'}" class="p-fluid">
 
   <div class="surface-50 p-4 border-round mt-2">
@@ -68,20 +68,20 @@
         <div class="col-12 md:col-6 mb-4 mt-2">
           <p-floatlabel>
             <input pInputText id="make" formControlName="make" class="w-full bg-white" />
-            <label for="make">Make (e.g. Ford)</label>
+            <label for="make">{{ 'vehicles.fields.make' | translate }}</label>
           </p-floatlabel>
           @if (vehicleForm.get('make')?.invalid && vehicleForm.get('make')?.touched) {
-          <small class="p-error block mt-1">Make is required.</small>
+          <small class="p-error block mt-1">{{ 'vehicles.errors.make' | translate }}</small>
           }
         </div>
 
         <div class="col-12 md:col-6 mb-4 mt-2">
           <p-floatlabel>
             <input pInputText id="model" formControlName="model" class="w-full bg-white" />
-            <label for="model">Model (e.g. Mustang)</label>
+            <label for="model">{{ 'vehicles.fields.model' | translate }}</label>
           </p-floatlabel>
           @if (vehicleForm.get('model')?.invalid && vehicleForm.get('model')?.touched) {
-          <small class="p-error block mt-1">Model is required.</small>
+          <small class="p-error block mt-1">{{ 'vehicles.errors.model' | translate }}</small>
           }
         </div>
 
@@ -89,17 +89,17 @@
           <p-floatlabel>
             <p-inputNumber inputId="year" formControlName="year" [useGrouping]="false"
               styleClass="w-full bg-white"></p-inputNumber>
-            <label for="year">Year</label>
+            <label for="year">{{ 'vehicles.fields.year' | translate }}</label>
           </p-floatlabel>
           @if (vehicleForm.get('year')?.invalid && vehicleForm.get('year')?.touched) {
-          <small class="p-error block mt-1">Valid year is required.</small>
+          <small class="p-error block mt-1">{{ 'vehicles.errors.year' | translate }}</small>
           }
         </div>
 
         <div class="col-12 md:col-6 mb-4">
           <p-floatlabel>
             <input pInputText id="color" formControlName="color" class="w-full bg-white" />
-            <label for="color">Color</label>
+            <label for="color">{{ 'vehicles.fields.color' | translate }}</label>
           </p-floatlabel>
         </div>
 
@@ -107,27 +107,27 @@
           <p-floatlabel>
             <p-inputNumber inputId="cylinders" formControlName="cylinders" [showButtons]="true" [min]="2" [max]="16"
               styleClass="w-full bg-white"></p-inputNumber>
-            <label for="cylinders">Cylinders</label>
+            <label for="cylinders">{{ 'vehicles.fields.cylinders' | translate }}</label>
           </p-floatlabel>
         </div>
 
         <div class="col-12 md:col-6 mb-4">
           <p-floatlabel>
             <input pInputText id="engineType" formControlName="engineType" class="w-full bg-white" />
-            <label for="engineType">Engine Type (e.g. V6)</label>
+            <label for="engineType">{{ 'vehicles.fields.engineType' | translate }}</label>
           </p-floatlabel>
           @if (vehicleForm.get('engineType')?.invalid && vehicleForm.get('engineType')?.touched) {
-          <small class="p-error block mt-1">Engine type is required.</small>
+          <small class="p-error block mt-1">{{ 'vehicles.errors.engineType' | translate }}</small>
           }
         </div>
 
         <div class="col-12 mb-4">
           <p-floatlabel>
             <input pInputText id="fuelType" formControlName="fuelType" class="w-full bg-white" />
-            <label for="fuelType">Fuel Type (e.g. Gasoline)</label>
+            <label for="fuelType">{{ 'vehicles.fields.fuelType' | translate }}</label>
           </p-floatlabel>
           @if (vehicleForm.get('fuelType')?.invalid && vehicleForm.get('fuelType')?.touched) {
-          <small class="p-error block mt-1">Fuel type is required.</small>
+          <small class="p-error block mt-1">{{ 'vehicles.errors.fuelType' | translate }}</small>
           }
         </div>
 
@@ -136,9 +136,9 @@
   </div>
 
   <ng-template pTemplate="footer">
-    <p-button label="Cancel" icon="pi pi-times" [outlined]="true" severity="secondary"
+    <p-button [label]="'common.actions.cancel' | translate" icon="pi pi-times" [outlined]="true" severity="secondary"
       (onClick)="hideDialog()"></p-button>
-    <p-button label="Save" icon="pi pi-check" (onClick)="saveVehicle()" [disabled]="vehicleForm.invalid"
+    <p-button [label]="'common.actions.save' | translate" icon="pi pi-check" (onClick)="saveVehicle()" [disabled]="vehicleForm.invalid"
       [loading]="isSaving"></p-button>
   </ng-template>
 </p-dialog>

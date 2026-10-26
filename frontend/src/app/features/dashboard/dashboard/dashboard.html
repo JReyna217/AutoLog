@@ -1,15 +1,15 @@
 <div class="card p-4 mb-4 bg-white border-round shadow-1">
   <div class="flex flex-column md:flex-row md:align-items-center justify-content-between gap-3">
-    <h1 class="text-3xl font-bold m-0 text-900">Dashboard</h1>
+    <h1 class="text-3xl font-bold m-0 text-900">{{ 'dashboard.title' | translate }}</h1>
     
     <div class="flex flex-wrap gap-3">
       <div class="flex flex-column gap-1">
-        <label class="text-sm font-medium text-600">Vehicle</label>
+        <label class="text-sm font-medium text-600">{{ 'dashboard.vehicle' | translate }}</label>
         <p-select [options]="vehicles" [(ngModel)]="selectedVehicleId" optionLabel="model" optionValue="id" (onChange)="refreshDashboard()" styleClass="w-full md:w-15rem"></p-select>
       </div>
 
       <div class="flex flex-column gap-1">
-        <label class="text-sm font-medium text-600">Analysis Month</label>
+        <label class="text-sm font-medium text-600">{{ 'dashboard.analysisMonth' | translate }}</label>
         <p-datepicker [(ngModel)]="selectedDate" view="month" dateFormat="mm/yy" [readonlyInput]="true" (onSelect)="refreshDashboard()" styleClass="w-full md:w-12rem"></p-datepicker>
       </div>
     </div>
@@ -20,7 +20,7 @@
   <div class="col-12 md:col-4">
     <div class="card p-4 shadow-1 border-round bg-white flex align-items-center justify-content-between h-full">
       <div>
-        <span class="block text-500 font-medium mb-2">Total Monthly Spending</span>
+        <span class="block text-500 font-medium mb-2">{{ 'dashboard.totalMonthlySpending' | translate }}</span>
         <div class="text-900 font-bold text-3xl text-green-600">{{ $safeNavigationMigration(summary?.totalMonthlySpending) | currency:'MXN' }}</div>
       </div>
       <div class="flex align-items-center justify-content-center bg-green-100 border-round" style="width:3.5rem;height:3.5rem">
@@ -32,7 +32,7 @@
   <div class="col-12 md:col-4">
     <div class="card p-4 shadow-1 border-round bg-white flex align-items-center justify-content-between h-full">
       <div>
-        <span class="block text-500 font-medium mb-2">Active Vehicles</span>
+        <span class="block text-500 font-medium mb-2">{{ 'dashboard.activeVehicles' | translate }}</span>
         <div class="text-900 font-bold text-3xl">{{ summary?.activeVehiclesCount }}</div>
       </div>
       <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width:3.5rem;height:3.5rem">
@@ -44,11 +44,11 @@
   <div class="col-12 md:col-4">
     <div class="card p-4 shadow-1 border-round bg-white flex align-items-center justify-content-between h-full">
       <div>
-        <span class="block text-500 font-medium mb-2">Exchange Rate</span>
+        <span class="block text-500 font-medium mb-2">{{ 'dashboard.exchangeRate' | translate }}</span>
         @if (summary?.latestExchangeRate) {
           <div class="text-900 font-bold text-3xl text-orange-600">{{ $safeNavigationMigration(summary?.latestExchangeRate) | currency:'MXN' }}</div>
         } @else {
-          <div class="text-900 font-bold text-3xl text-orange-600">N/A</div>
+          <div class="text-900 font-bold text-3xl text-orange-600">{{ 'dashboard.notAvailable' | translate }}</div>
         }
       </div>
       <div class="flex align-items-center justify-content-center bg-orange-100 border-round" style="width:3.5rem;height:3.5rem">
@@ -61,14 +61,14 @@
 <div class="grid mb-4">
   <div class="col-12 lg:col-8">
     <div class="card p-4 shadow-1 border-round bg-white h-full">
-      <h3 class="text-xl font-bold mb-4 mt-0 text-700">Health History: Fuel Efficiency (Km/L)</h3>
+      <h3 class="text-xl font-bold mb-4 mt-0 text-700">{{ 'dashboard.charts.efficiencyHistory' | translate }}</h3>
       <p-chart type="line" [data]="lineChartData" [options]="chartOptions" height="250px"></p-chart>
     </div>
   </div>
 
   <div class="col-12 lg:col-4">
     <div class="card p-4 shadow-1 border-round bg-white h-full">
-      <h3 class="text-xl font-bold mb-4 mt-0 text-700">Monthly Avg Efficiency (Km/L)</h3>
+      <h3 class="text-xl font-bold mb-4 mt-0 text-700">{{ 'dashboard.charts.monthlyAvgEfficiency' | translate }}</h3>
       <p-chart type="bar" [data]="barChartData" [options]="chartOptions" height="250px"></p-chart>
     </div>
   </div>
@@ -77,14 +77,14 @@
 <div class="grid">
   <div class="col-12 lg:col-6">
     <div class="card p-4 shadow-1 border-round bg-white">
-      <h3 class="text-xl font-bold mb-4 mt-0 text-700">Monthly Spending History (MXN)</h3>
+      <h3 class="text-xl font-bold mb-4 mt-0 text-700">{{ 'dashboard.charts.monthlySpendingHistory' | translate }}</h3>
       <p-chart type="bar" [data]="spendChartData" [options]="chartOptions" height="250px"></p-chart>
     </div>
   </div>
 
   <div class="col-12 lg:col-6">
     <div class="card p-4 shadow-1 border-round bg-white">
-      <h3 class="text-xl font-bold mb-4 mt-0 text-700">Exchange Rate History</h3>
+      <h3 class="text-xl font-bold mb-4 mt-0 text-700">{{ 'dashboard.charts.exchangeRateHistory' | translate }}</h3>
       <p-chart type="line" [data]="exchangeRateChartData" [options]="chartOptions" height="250px"></p-chart>
     </div>
   </div>

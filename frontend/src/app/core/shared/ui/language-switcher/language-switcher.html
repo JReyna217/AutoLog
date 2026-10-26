@@ -1,0 +1,15 @@
+<div class="lang-switch" role="group" [attr.aria-label]="'common.language' | translate">
+  @for (l of languages; track l.code) {
+    <button
+      type="button"
+      class="lang-btn"
+      [class.active]="lang() === l.code"
+      [attr.aria-pressed]="lang() === l.code"
+      [attr.aria-label]="l.name"
+      [attr.lang]="l.code"
+      [title]="l.name"
+      (click)="select(l.code)">
+      {{ l.label }}
+    </button>
+  }
+</div>

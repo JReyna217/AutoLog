@@ -1,0 +1,40 @@
+:host {
+  display: inline-block;
+}
+
+.lang-switch {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid #374151;
+  border-radius: 999px;
+  background: #111827;
+}
+
+.lang-btn {
+  min-width: 2.25rem;
+  padding: 0.3rem 0.6rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    color: #ffffff;
+  }
+
+  // Active language: primary color (matches the rest of the dark navigation theme)
+  &.active {
+    background: var(--p-primary-500, #0ea5e9);
+    color: #ffffff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--p-primary-300, #7dd3fc);
+    outline-offset: 2px;
+  }
+}

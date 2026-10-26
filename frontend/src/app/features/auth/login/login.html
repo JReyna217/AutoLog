@@ -1,12 +1,16 @@
-<div class="flex align-items-center justify-content-center min-h-screen bg-gray-50">
+<div class="relative flex align-items-center justify-content-center min-h-screen bg-gray-50">
+
+  <div class="absolute top-0 right-0 p-3">
+    <app-language-switcher></app-language-switcher>
+  </div>
   
   <p-toast></p-toast>
 
   <p-card [style]="{ width: '400px', 'border-radius': '12px', 'box-shadow': '0 4px 10px rgba(0,0,0,0.1)' }">
     
     <div class="text-center mb-5 mt-3">
-      <div class="text-900 text-3xl font-medium mb-3">Bienvenido a AutoLog</div>
-      <span class="text-600 font-medium line-height-3">Tu sistema de administración de confianza</span>
+      <div class="text-900 text-3xl font-medium mb-3">{{ 'auth.login.title' | translate }}</div>
+      <span class="text-600 font-medium line-height-3">{{ 'auth.login.subtitle' | translate }}</span>
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4 mt-4">
@@ -20,11 +24,11 @@
             formControlName="email" 
             class="w-full" 
             [ngClass]="{'ng-invalid ng-dirty': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}">
-          <label htmlFor="email">Correo Electrónico</label>
+          <label htmlFor="email">{{ 'auth.login.email' | translate }}</label>
         </p-floatlabel>
         
         @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
-          <small class="p-error block mt-1">Ingresa un correo válido.</small>
+          <small class="p-error block mt-1">{{ 'common.validations.emailInvalid' | translate }}</small>
         }
       </div>
 
@@ -39,25 +43,25 @@
             [inputStyle]="{'width':'100%'}"
             [ngClass]="{'ng-invalid ng-dirty': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
           </p-password>
-          <label htmlFor="password">Contraseña</label>
+          <label htmlFor="password">{{ 'auth.login.password' | translate }}</label>
         </p-floatlabel>
 
         @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-          <small class="p-error block mt-1">La contraseña es obligatoria.</small>
+          <small class="p-error block mt-1">{{ 'auth.login.errors.passwordRequired' | translate }}</small>
         }
       </div>
 
       <p-button 
         type="submit" 
-        label="Ingresar" 
+        [label]="'auth.login.submit' | translate" 
         styleClass="w-full mt-4" 
         [disabled]="loginForm.invalid"
         [loading]="isLoading">
       </p-button>
 
       <div class="text-center mt-3">
-        <span class="text-600 font-medium">¿No tienes cuenta? </span>
-        <a routerLink="/register" class="font-medium no-underline ml-2 text-primary cursor-pointer">Regístrate aquí</a>
+        <span class="text-600 font-medium">{{ 'auth.login.noAccount' | translate }} </span>
+        <a routerLink="/register" class="font-medium no-underline ml-2 text-primary cursor-pointer">{{ 'auth.login.registerLink' | translate }}</a>
       </div>
 
     </form>

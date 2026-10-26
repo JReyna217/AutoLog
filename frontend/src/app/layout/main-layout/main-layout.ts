@@ -1,7 +1,10 @@
-import { Component, HostListener, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, HostListener, inject, OnInit, ChangeDetectionStrategy, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/auth';
+import { LanguageService } from '../../core/services/language';
+import { LanguageSwitcher } from '../../core/shared/ui/language-switcher/language-switcher';
 
 import { MenuItem } from 'primeng/api';
 import { PRIME_LAYOUT_IMPORTS } from '../../core/shared/ui/primeng-imports';
@@ -10,7 +13,7 @@ import { filter } from 'rxjs';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, ...PRIME_LAYOUT_IMPORTS],
+  imports: [CommonModule, RouterOutlet, TranslatePipe, LanguageSwitcher, ...PRIME_LAYOUT_IMPORTS],
   templateUrl: './main-layout.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './main-layout.scss'
@@ -18,6 +21,8 @@ import { filter } from 'rxjs';
 export class MainLayout implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private translate = inject(TranslateService);
+  private languageService = inject(LanguageService);
   
   firstName: string = '';
   userInitials: string = '';
@@ -27,25 +32,31 @@ export class MainLayout implements OnInit {
   // Control the visibility of menu in mobile
   isMobile = false;
 
-  // Sidebar navigation menu items
-  sidebarItems: MenuItem[] = [
-    { label: 'Dashboard', icon: 'pi pi-home', routerLink: '/dashboard' },
-    { label: 'Exchange Rates', icon: 'pi pi-money-bill', routerLink: '/exchange-rates' },
-    { label: 'Vehicles', icon: 'pi pi-car', routerLink: '/vehicles' },
-    { label: 'Fuel Logs', icon: 'pi pi-gauge', routerLink: '/fuel-logs' },
-  ];
+  // Sidebar navigation menu items (recomputed whenever the active language changes)
+  sidebarItems = computed<MenuItem[]>(() => {
+    this.languageService.current(); // reactive dependency
+    return [
+      { label: this.translate.instant('nav.dashboard'), icon: 'pi pi-home', routerLink: '/dashboard' },
+      { label: this.translate.instant('nav.exchangeRates'), icon: 'pi pi-money-bill', routerLink: '/exchange-rates' },
+      { label: this.translate.instant('nav.vehicles'), icon: 'pi pi-car', routerLink: '/vehicles' },
+      { label: this.translate.instant('nav.fuelLogs'), icon: 'pi pi-gauge', routerLink: '/fuel-logs' },
+    ];
+  });
 
   // User profile dropdown menu items
-  profileItems: MenuItem[] = [
-    // { label: 'My Profile', icon: 'pi pi-user' },
-    // { label: 'Settings', icon: 'pi pi-cog' },
-    // { separator: true },
-    { 
-      label: 'Logout', 
-      icon: 'pi pi-power-off', 
-      command: () => this.logout() 
-    }
-  ];
+  profileItems = computed<MenuItem[]>(() => {
+    this.languageService.current();
+    return [
+      // { label: 'My Profile', icon: 'pi pi-user' },
+      // { label: 'Settings', icon: 'pi pi-cog' },
+      // { separator: true },
+      {
+        label: this.translate.instant('nav.logout'),
+        icon: 'pi pi-power-off',
+        command: () => this.logout()
+      }
+    ];
+  });
 
   constructor() {
     this.checkScreenSize(); // To verify the initial size

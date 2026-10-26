@@ -3,8 +3,8 @@
     <p-confirmDialog></p-confirmDialog>
 
     <div class="flex flex-column md:flex-row justify-content-between align-items-center mb-4 gap-3">
-        <h2 class="text-2xl font-bold text-900 m-0">Exchange Rates</h2>
-        <p-button label="Add Rate" icon="pi pi-plus" (onClick)="openNew()"></p-button>
+        <h2 class="text-2xl font-bold text-900 m-0">{{ 'exchangeRates.title' | translate }}</h2>
+        <p-button [label]="'exchangeRates.add' | translate" icon="pi pi-plus" (onClick)="openNew()"></p-button>
     </div>
 
     <p-table [value]="rates" [loading]="isLoading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
@@ -12,16 +12,16 @@
 
         <ng-template pTemplate="header">
             <tr>
-                <th>Date</th>
-                <th>Exchange Rate (USD to MXN)</th>
-                <th class="text-center">Actions</th>
+                <th>{{ 'exchangeRates.columns.date' | translate }}</th>
+                <th>{{ 'exchangeRates.columns.rate' | translate }}</th>
+                <th class="text-center">{{ 'common.table.actions' | translate }}</th>
             </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-rate>
             <tr>
                 <td>
-                    <span class="font-medium text-900">{{ rate.date | date:'mediumDate' }}</span>
+                    <span class="font-medium text-900">{{ rate.date | date:'mediumDate':undefined:lang() }}</span>
                 </td>
                 <td>
                     <span class="surface-200 text-700 px-2 py-1 border-round font-medium text-sm">
@@ -30,9 +30,9 @@
                 </td>
                 <td class="text-center">
                     <div class="flex justify-content-center gap-2">
-                        <p-button icon="pi pi-pencil" [text]="true" [rounded]="true" severity="info"
+                        <p-button icon="pi pi-pencil" [ariaLabel]="'common.actions.edit' | translate" [text]="true" [rounded]="true" severity="info"
                             (onClick)="editRate(rate)"></p-button>
-                        <p-button icon="pi pi-trash" [text]="true" [rounded]="true" severity="danger"
+                        <p-button icon="pi pi-trash" [ariaLabel]="'common.actions.delete' | translate" [text]="true" [rounded]="true" severity="danger"
                             (onClick)="deleteRate(rate)"></p-button>
                     </div>
                 </td>
@@ -42,14 +42,14 @@
         <ng-template pTemplate="emptymessage">
             <tr>
                 <td colspan="3" class="text-center p-5 text-600">
-                    No exchange rates found. Add your first record.
+                    {{ 'exchangeRates.empty' | translate }}
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
 
-<p-dialog [focusOnShow]="false" [(visible)]="showDialog" [header]="isEditMode ? 'Edit Exchange Rate' : 'New Exchange Rate'" [modal]="true"
+<p-dialog [focusOnShow]="false" [(visible)]="showDialog" [header]="(isEditMode ? 'exchangeRates.dialog.editTitle' : 'exchangeRates.dialog.newTitle') | translate" [modal]="true"
     [style]="{width: '30vw'}" [breakpoints]="{'960px': '50vw', '640px': '90vw'}" class="p-fluid">
 
     <div class="surface-50 p-4 border-round mt-2">
@@ -61,10 +61,10 @@
                         <p-datepicker inputId="date" formControlName="date" [showIcon]="true" [fluid]="true" appendTo="body"
                             styleClass="w-full bg-white">
                         </p-datepicker>
-                        <label for="date">Date</label>
+                        <label for="date">{{ 'exchangeRates.fields.date' | translate }}</label>
                     </p-floatlabel>
                     @if (rateForm.get('date')?.invalid && rateForm.get('date')?.touched) {
-                        <small class="p-error block mt-1">Date is required.</small>
+                        <small class="p-error block mt-1">{{ 'exchangeRates.errors.date' | translate }}</small>
                     }
                 </div>
 
@@ -73,17 +73,17 @@
                         <p-inputNumber inputId="usdToMxnRate" formControlName="usdToMxnRate" mode="decimal"
                             [minFractionDigits]="2" [maxFractionDigits]="4" styleClass="w-full bg-white">
                         </p-inputNumber>
-                        <label for="usdToMxnRate">Rate Value</label>
+                        <label for="usdToMxnRate">{{ 'exchangeRates.fields.rateValue' | translate }}</label>
                     </p-floatlabel>
                     
                     @if (isFetchingDof) {
                         <small class="text-blue-500 block mt-1 font-medium">
-                            <i class="pi pi-spin pi-spinner mr-1"></i> Fetching official rate from DOF...
+                            <i class="pi pi-spin pi-spinner mr-1"></i> {{ 'exchangeRates.fetchingDof' | translate }}
                         </small>
                     }
                     
                     @if (rateForm.get('usdToMxnRate')?.invalid && rateForm.get('usdToMxnRate')?.touched && !isFetchingDof) {
-                        <small class="p-error block mt-1">Valid rate is required.</small>
+                        <small class="p-error block mt-1">{{ 'exchangeRates.errors.rate' | translate }}</small>
                     }
                 </div>
 
@@ -92,9 +92,9 @@
     </div>
 
     <ng-template pTemplate="footer">
-        <p-button label="Cancel" icon="pi pi-times" [outlined]="true" severity="secondary"
+        <p-button [label]="'common.actions.cancel' | translate" icon="pi pi-times" [outlined]="true" severity="secondary"
             (onClick)="hideDialog()"></p-button>
-        <p-button label="Save" icon="pi pi-check" (onClick)="saveRate()" [disabled]="rateForm.invalid || isFetchingDof"
+        <p-button [label]="'common.actions.save' | translate" icon="pi pi-check" (onClick)="saveRate()" [disabled]="rateForm.invalid || isFetchingDof"
             [loading]="isSaving"></p-button>
     </ng-template>
 </p-dialog>

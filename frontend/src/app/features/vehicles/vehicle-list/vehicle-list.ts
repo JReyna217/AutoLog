@@ -2,6 +2,7 @@ import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { VehicleService } from '../../../core/services/vehicle';
 import { VehicleResponse } from '../../../core/models/vehicle.model';
 import { PRIME_VEHICLE_IMPORTS } from '../../../core/shared/ui/primeng-imports';
@@ -9,7 +10,7 @@ import { PRIME_VEHICLE_IMPORTS } from '../../../core/shared/ui/primeng-imports';
 @Component({
   selector: 'app-vehicle-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ...PRIME_VEHICLE_IMPORTS],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe, ...PRIME_VEHICLE_IMPORTS],
   providers: [MessageService, ConfirmationService],
   templateUrl: './vehicle-list.html',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -20,6 +21,7 @@ export class VehicleList implements OnInit {
   private fb = inject(FormBuilder);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private translate = inject(TranslateService);
 
   vehicles: VehicleResponse[] = [];
   isLoading = true;
@@ -51,7 +53,7 @@ export class VehicleList implements OnInit {
         this.isLoading = false;
       },
       error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Could not load vehicles.' });
+        this.messageService.add({ severity: 'error', summary: this.translate.instant('common.status.error'), detail: this.translate.instant('vehicles.toast.loadError') });
         this.isLoading = false;
       }
     });
@@ -83,8 +85,8 @@ export class VehicleList implements OnInit {
 
   deleteVehicle(vehicle: VehicleResponse) {
     this.confirmationService.confirm({
-      message: `Are you sure you want to delete your ${vehicle.year} ${vehicle.make} ${vehicle.model}?`,
-      header: 'Confirm Deletion',
+      message: this.translate.instant('vehicles.confirmDelete', { year: vehicle.year, make: vehicle.make, model: vehicle.model }),
+      header: this.translate.instant('common.confirm.deleteHeader'),
       icon: 'pi pi-exclamation-triangle',
       acceptButtonStyleClass: 'p-button-danger',
       rejectButtonStyleClass: 'p-button-info p-button-outlined',
@@ -92,7 +94,7 @@ export class VehicleList implements OnInit {
         this.vehicleService.deleteVehicle(vehicle.id).subscribe({
           next: () => {
             this.vehicles = this.vehicles.filter(v => v.id !== vehicle.id);
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vehicle deleted successfully' });
+            this.messageService.add({ severity: 'success', summary: this.translate.instant('common.status.success'), detail: this.translate.instant('vehicles.toast.deleted') });
           },
           error: () => this.handleError()
         });
@@ -120,7 +122,7 @@ export class VehicleList implements OnInit {
           if (index !== -1) {
             this.vehicles[index] = { ...vehicleData, id: this.selectedVehicleId };
           }
-          this.finishSave('Vehicle updated successfully');
+          this.finishSave(this.translate.instant('vehicles.toast.updated'));
         },
         error: () => this.handleError()
       });
@@ -128,7 +130,7 @@ export class VehicleList implements OnInit {
       this.vehicleService.createVehicle(vehicleData).subscribe({
         next: (newVehicle) => {
           this.vehicles.unshift(newVehicle);
-          this.finishSave('Vehicle added successfully');
+          this.finishSave(this.translate.instant('vehicles.toast.added'));
         },
         error: () => this.handleError()
       });
@@ -136,13 +138,13 @@ export class VehicleList implements OnInit {
   }
 
   private finishSave(message: string) {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: message });
+    this.messageService.add({ severity: 'success', summary: this.translate.instant('common.status.success'), detail: message });
     this.isSaving = false;
     this.showDialog = false;
   }
 
   private handleError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Operation failed.' });
+    this.messageService.add({ severity: 'error', summary: this.translate.instant('common.status.error'), detail: this.translate.instant('common.messages.operationFailed') });
     this.isSaving = false;
   }
 }

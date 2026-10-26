@@ -1,7 +1,9 @@
-import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../core/services/language';
 
 import { FuelLogService } from '../../../core/services/fuel-log';
 
@@ -15,7 +17,7 @@ import { VehicleService } from '../../../core/services/vehicle';
 @Component({
   selector: 'app-fuel-log-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, ...PRIME_FUEL_IMPORTS],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, TranslatePipe, ...PRIME_FUEL_IMPORTS],
   providers: [MessageService, ConfirmationService],
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './fuel-log-list.html'
@@ -27,6 +29,10 @@ export class FuelLogList implements OnInit {
   private fb = inject(FormBuilder);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private translate = inject(TranslateService);
+
+  /** Active language; used for locale-aware date formatting and reactive option labels. */
+  readonly lang = inject(LanguageService).current;
 
   vehicles: VehicleResponse[] = [];
   selectedVehicleId: number | null = null;
@@ -39,10 +45,29 @@ export class FuelLogList implements OnInit {
   selectedLogId: number = 0;
 
   // Options for SelectButtons (Toggles)
-  distanceOptions = [{ label: 'KM', value: false }, { label: 'Miles', value: true }];
-  volumeOptions = [{ label: 'Liters', value: false }, { label: 'Gallons', value: true }];
+  // Labels are computed so they re-translate when the language changes (ISO currency codes stay as-is)
+  distanceOptions = computed(() => {
+    this.lang();
+    return [
+      { label: this.translate.instant('fuelLogs.options.km'), value: false },
+      { label: this.translate.instant('fuelLogs.options.miles'), value: true }
+    ];
+  });
+  volumeOptions = computed(() => {
+    this.lang();
+    return [
+      { label: this.translate.instant('fuelLogs.options.liters'), value: false },
+      { label: this.translate.instant('fuelLogs.options.gallons'), value: true }
+    ];
+  });
   currencyOptions = [{ label: 'MXN', value: false }, { label: 'USD', value: true }];
-  tankOptions = [{ label: 'Partial', value: false }, { label: 'Full Tank', value: true }];
+  tankOptions = computed(() => {
+    this.lang();
+    return [
+      { label: this.translate.instant('fuelLogs.options.partial'), value: false },
+      { label: this.translate.instant('fuelLogs.options.fullTank'), value: true }
+    ];
+  });
 
   // Form initialization using null for numbers so FloatLabels stay down
   logForm = this.fb.group({
@@ -100,7 +125,7 @@ export class FuelLogList implements OnInit {
           this.loadLogs();
         }
       },
-      error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Could not load vehicles.' })
+      error: () => this.messageService.add({ severity: 'error', summary: this.translate.instant('common.status.error'), detail: this.translate.instant('fuelLogs.toast.loadVehiclesError') })
     });
   }
 
@@ -118,7 +143,7 @@ export class FuelLogList implements OnInit {
         this.isLoading = false;
       },
       error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Could not load fuel logs.' });
+        this.messageService.add({ severity: 'error', summary: this.translate.instant('common.status.error'), detail: this.translate.instant('fuelLogs.toast.loadLogsError') });
         this.isLoading = false;
       }
     });
@@ -126,7 +151,7 @@ export class FuelLogList implements OnInit {
 
   openNew() {
     if (!this.selectedVehicleId) {
-      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'Select a vehicle first.' });
+      this.messageService.add({ severity: 'warn', summary: this.translate.instant('common.status.warning'), detail: this.translate.instant('fuelLogs.toast.selectVehicleFirst') });
       return;
     }
     this.isEditMode = false;
@@ -154,8 +179,8 @@ export class FuelLogList implements OnInit {
 
   deleteLog(log: FuelLogResponse) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this fuel record?',
-      header: 'Confirm Deletion',
+      message: this.translate.instant('fuelLogs.confirmDelete'),
+      header: this.translate.instant('common.confirm.deleteHeader'),
       icon: 'pi pi-exclamation-triangle',
       acceptButtonStyleClass: 'p-button-danger',
       rejectButtonStyleClass: 'p-button-secondary p-button-outlined',
@@ -163,7 +188,7 @@ export class FuelLogList implements OnInit {
         this.fuelLogService.delete(log.id).subscribe({
           next: () => {
             this.logs = this.logs.filter(l => l.id !== log.id);
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Record deleted.' });
+            this.messageService.add({ severity: 'success', summary: this.translate.instant('common.status.success'), detail: this.translate.instant('fuelLogs.toast.deleted') });
           },
           error: () => this.handleError()
         });
@@ -209,7 +234,7 @@ export class FuelLogList implements OnInit {
       this.fuelLogService.update(this.selectedLogId, requestData).subscribe({
         next: () => {
           this.loadLogs();
-          this.finishSave('Record updated.');
+          this.finishSave(this.translate.instant('fuelLogs.toast.updated'));
         },
         error: () => this.handleError()
       });
@@ -217,7 +242,7 @@ export class FuelLogList implements OnInit {
       this.fuelLogService.create(requestData).subscribe({
         next: () => {
           this.loadLogs();
-          this.finishSave('Fuel log added successfully.');
+          this.finishSave(this.translate.instant('fuelLogs.toast.added'));
         },
         error: () => this.handleError()
       });
@@ -229,13 +254,13 @@ export class FuelLogList implements OnInit {
   }
 
   private finishSave(message: string) {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: message });
+    this.messageService.add({ severity: 'success', summary: this.translate.instant('common.status.success'), detail: message });
     this.isSaving = false;
     this.showDialog = false;
   }
 
   private handleError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Operation failed.' });
+    this.messageService.add({ severity: 'error', summary: this.translate.instant('common.status.error'), detail: this.translate.instant('common.messages.operationFailed') });
     this.isSaving = false;
   }
 }
